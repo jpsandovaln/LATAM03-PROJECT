@@ -1,6 +1,7 @@
 const fs = require("fs");
 
 module.exports = class Files {
+
   static getAllFiles = (req, res) => {
     var filesVariable = fs.readdirSync("./src/files");
     res.json(filesVariable);
