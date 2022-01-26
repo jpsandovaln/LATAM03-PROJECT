@@ -1,10 +1,11 @@
 const {Router} = require('express');
 
+const {recognizeObjects, downloadImage} = require('../controllers/objectRecognition.controller');  
+const {uploadImagesMiddleware} = require('../middlewares/multer.middleware');
 const router = Router();
 
-// Routes the endpoints
-router.get('/recognize-object', (req, res) => {
-    res.send('ok from recognition');
-});
+// Routes uris
+router.post('/recognize-objects', uploadImagesMiddleware(), recognizeObjects);
+router.get('/download-image/:image', downloadImage);
 
 module.exports = router;

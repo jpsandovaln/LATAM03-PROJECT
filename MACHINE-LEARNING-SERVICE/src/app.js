@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 const Server = require('./controllers/server.controller');
 
