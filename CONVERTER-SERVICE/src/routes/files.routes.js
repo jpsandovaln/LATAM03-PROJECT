@@ -1,11 +1,10 @@
-const { Router } = require("express");
+const { Router } = require('express');
 const router = Router();
-const Files = require("../controllers/files.controller");
-const { uploadFileMiddleware } = require("../middlewares/multer.middleware");
+const Video = require('../controllers/video.controller');
+const { uploadFileMiddleware } = require('../middlewares/multer.middleware');
 
-router.get("/", Files.getAllFiles);
-router.get("/:fileName", Files.downloadFile);
-router.post("/", uploadFileMiddleware(), Files.uploadFiles);
-router.delete("/:id", Files.deleteFile);
+router.get('/', Video.getAllFiles);
+router.get('/:fileName', Video.downloadFile);
+router.post('/', uploadFileMiddleware(), Video.uploadFiles);
 
 module.exports = router;

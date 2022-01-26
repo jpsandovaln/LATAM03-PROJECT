@@ -1,9 +1,8 @@
-const fs = require("fs");
+const fs = require('fs');
 
-module.exports = class Files {
-
+module.exports = class Video {
   static getAllFiles = (req, res) => {
-    var filesVariable = fs.readdirSync("./src/files");
+    var filesVariable = fs.readdirSync('./src/files');
     res.json(filesVariable);
   };
 
@@ -24,10 +23,5 @@ module.exports = class Files {
       };
     });
     res.json(filesData);
-  };
-
-  static deleteFile = (req, res) => {
-    const { id } = req.params;
-    res.json("File deleted" + id);
   };
 };
