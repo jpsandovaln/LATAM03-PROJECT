@@ -8,7 +8,6 @@ const recognizeObjects = (req, res) => {
             destination: (process.env.SERVER_URL + '/download-image/' + image.filename).replace(/ /g, '%20')
         }
     });
-    // TODO: calls the ObjectRecognition class
 
     res.json({
         msg: 'Images were uploaded.',
