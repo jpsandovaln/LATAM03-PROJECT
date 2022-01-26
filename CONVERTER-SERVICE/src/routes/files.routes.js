@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const Video = require('../controllers/video.controller');
+const Video = require('../controllers/files.controller');
 const { uploadFileMiddleware } = require('../middlewares/multer.middleware');
 
 router.get('/', Video.getAllFiles);
