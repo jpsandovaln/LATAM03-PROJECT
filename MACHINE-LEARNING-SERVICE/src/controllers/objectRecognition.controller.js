@@ -1,4 +1,3 @@
-// Recognizes objects
 const recognizeObjects = (req, res) => {
     const {files: images} = req;
     let imagesploaded = images.map((image)=>{
@@ -15,7 +14,6 @@ const recognizeObjects = (req, res) => {
     });
 }
 
-// downloads image
 const downloadImage = (req, res) => {
     const {image} = req.params;
     const path = './uploads/images/' + image;

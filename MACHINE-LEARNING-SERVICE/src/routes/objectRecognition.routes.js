@@ -4,7 +4,6 @@ const {recognizeObjects, downloadImage} = require('../controllers/objectRecognit
 const {uploadImagesMiddleware} = require('../middlewares/multer.middleware');
 const router = Router();
 
-// Routes uris
 router.post('/recognize-objects', uploadImagesMiddleware(), recognizeObjects);
 router.get('/download-image/:image', downloadImage);
 
