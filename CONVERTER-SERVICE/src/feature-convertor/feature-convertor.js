@@ -1,4 +1,5 @@
 const FfmpegCommand = require('fluent-ffmpeg');
+
 class VideoConvertor {
     constructor(input, output, fps, finalSize){
         this.input = input;
@@ -30,9 +31,3 @@ class VideoConvertor {
     } 
 }
 module.exports = VideoConvertor;
-let inputPath = './videos/video.mp4';
-let outptPath = './imagenes/%2d.jpg';
-let framesPerSec = 1;
-let imageSize = '100%';
-const ejemplo = new VideoConvertor(inputPath, outptPath, framesPerSec, imageSize);
-ejemplo.conversor();
