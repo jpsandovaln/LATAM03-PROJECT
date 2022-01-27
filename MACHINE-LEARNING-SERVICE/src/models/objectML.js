@@ -22,7 +22,6 @@ class ObjectML{
         return true;
       }
     });
-    var arrayObjects = [{"object": predictions[0].class, "Score": predictions[0].score}];
-    return arrayObjects;
+      return arrayObjects;
     }
 }
