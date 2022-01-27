@@ -1,6 +1,7 @@
 const cocoSsd = require('@tensorflow-models/coco-ssd');
 const tf = require('@tensorflow/tfjs-node');
 const fs = require('fs').promises;
+
 class ObjectML{
   constructor (image, percentage, objectRequired){
     this.image = image;
