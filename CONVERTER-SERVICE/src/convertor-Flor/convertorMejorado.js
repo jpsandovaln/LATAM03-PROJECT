@@ -11,6 +11,7 @@ class videoConvertor {
         this.finalSize = finalSize;
     }
     async conversor(){
+        let status = false;
         await FfmpegCommand(inputPath)
         .size(imageSize)
         .fps(framesPerSec)
@@ -21,6 +22,8 @@ class videoConvertor {
             console.log('Processing finished !');
         })
         .save(outptPath);
+        status = true;
+        return status;
     } 
 }
 const ejemplo = new videoConvertor(inputPath, outptPath, framesPerSec, imageSize);
