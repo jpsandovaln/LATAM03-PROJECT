@@ -25,3 +25,5 @@ class ObjectML{
       return arrayObjects;
     }
 }
+
+module.exports = ObjectML;
