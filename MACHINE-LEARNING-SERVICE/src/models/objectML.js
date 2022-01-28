@@ -9,6 +9,10 @@ class ObjectML{
     this.objectRequired = objectRequired;
   }
 
+  /** 
+    *Method predict() allows to load the model and decode the image in order to make a detection of the desired object
+  */
+
   async predict(){
     const results = await Promise.all([cocoSsd.load(), fs.readFile(this.image)]);
     const model = results[0];
@@ -23,7 +27,7 @@ class ObjectML{
         return true;
       }
     });
-      return arrayObjects;
+      return await Promise.resolve(arrayObjects);
     }
 }
 
