@@ -1,20 +1,16 @@
+const path = require('path');
+const ObjectML = require('../models/objectML');
 
 class ObjectRecognitionController{
 
-    static recognizeObjects = (req, res) => {
+    static recognizeObjects = async (req, res) => {
         const {files: images} = req;
-        let imagesploaded = images.map((image)=>{
-            return {
-                name: image.filename,
-                type: image.mimetype,
-                destination: (process.env.SERVER_URL + '/download-image/' + image.filename).replace(/ /g, '%20')
-            }
-        });
-        
-        res.json({
-            msg: 'Images were uploaded.',
-            images: imagesploaded
-        });
+        const modelOne = new ObjectML(path.join(__dirname, '../uploads/images/Dogs_cats.jpg'), 0.80, 'dog');
+        const result = await modelOne.predict();
+        if (result.length === 0) {
+            res.json({msg: 'There is not the object in the image.'});
+        }
+        return res.json(result);
     }
     
     static downloadImage = (req, res) => {
