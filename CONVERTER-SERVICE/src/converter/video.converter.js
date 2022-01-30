@@ -11,10 +11,10 @@ with Jalasoft.
 
 const FfmpegCommand = require('fluent-ffmpeg');
 
-//This class represents a model for convert Video into Images 
+//Represents a model for convert Video into Images 
 class VideoConverter {
 
-  //This method allows to convert a video into an specif number of images by setting the Frames Per Second with an specific size 
+  //Allows to convert a video into an specif number of images by setting the Frames Per Second with an specific size 
   static converter({input, fps, finalSize}) {
     return new Promise(function(resolve, reject){
       FfmpegCommand(`../files/videos/${input}`)
