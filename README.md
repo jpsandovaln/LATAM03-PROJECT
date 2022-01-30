@@ -14,3 +14,16 @@ In order to be able to use this, make sure you have ffmpeg installed on your sys
 4.3 Paste the path to the folder you created earlier where ffmpeg.exe is saved. For this example, that is, C:\Program Files\ffmpeg\bin\
 4.4 Click OK on all the windows we just opened.
 5. Ffmpeg is now installed. 
+
+## Detection model class
+
+### Requirements
+Install python 2.7 [here](https://www.python.org/downloads/release/python-2718/)
+
+### TensorFlow installation
+Install tensorflow packages with [NPM](https://www.npmjs.com/):
+
+```sh
+npm install @tensorflow/tfjs-node
+npm install @tensorflow-models/coco-ssd
+```
