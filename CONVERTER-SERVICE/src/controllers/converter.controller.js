@@ -1,6 +1,7 @@
 /*
 @convert.controller.js Copyright (c) 2022 Jalasoft
-CI 26 Sur #48-41, Ayurá Center, Edificio Unión № 1376, Medellín, Colombia
+2643 Av Melchor Perez de Olguin Colquiri Sud, Cochabamba, Bolivia.
+Av. General Inofuentes esquina Calle 20,Edificio Union № 1376, La Paz, Bolivia
 All rights reserved
 This software is the confidential and proprietary information of
 Jalasoft Confidential Information You shall not
@@ -11,15 +12,20 @@ with Jalasoft.
 
 const Upload = require('../helpers/upload.helper');
 const Compress = require('../helpers/compress.helper');
-const VideoConvertor = require('../feature-convertor/feature-convertor');
+const VideoConverter = require('../converter/video.converter');
 
-module.exports = class ConvertController {
-
-  //Executes and verifies the response of the 3 methods involved in the project 
+module.exports = class ConverterController {
+  
+  // Executes and verifies the response of the 3 methods involved in the project
   static convertVideo(req, res) {
     const uploadRespond = Upload.uploadVideoMethod(req.file);
-    if (!uploadRespond) res.send('Insert a suppoted file');
-    VideoConvertor.converter(uploadRespond)
+
+    if (!uploadRespond) {
+      res.send('Insert a supported file');
+      return;
+    }
+
+    VideoConverter.converter(uploadRespond)
       .then(() => {
         const compressResponse = Compress.compressFile(uploadRespond.input);
         res.send(compressResponse);

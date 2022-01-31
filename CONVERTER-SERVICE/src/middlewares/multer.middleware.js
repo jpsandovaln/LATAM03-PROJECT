@@ -1,6 +1,7 @@
 /*
 @multer.middleware.js Copyright (c) 2022 Jalasoft
-CI 26 Sur #48-41, Ayurá Center, Edificio Unión № 1376, Medellín, Colombia
+2643 Av Melchor Perez de Olguin Colquiri Sud, Cochabamba, Bolivia.
+Av. General Inofuentes esquina Calle 20,Edificio Union № 1376, La Paz, Bolivia
 All rights reserved
 This software is the confidential and proprietary information of
 Jalasoft Confidential Information You shall not
@@ -11,6 +12,7 @@ with Jalasoft.
 
 const multer = require('multer');
 
+//Process the user request and saves a file in a destination 
 const uploadFileMiddleware = () => {
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
