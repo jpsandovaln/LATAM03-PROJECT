@@ -17,10 +17,10 @@ class VideoConverter {
   //Allows to convert a video into an specif number of images by setting the Frames Per Second with an specific size 
   static converter({input, fps, finalSize}) {
     return new Promise(function(resolve, reject){
-      FfmpegCommand(`../files/videos/${input}`)
+      FfmpegCommand(`${__dirname}/../../files/videos/${input}`)
       .size(finalSize)
       .fps(fps)
-      .save('../files/images/%3d.jpg')
+      .save(`${__dirname}/../../files/images/%2d.jpg`)
       .on('start',function(){
         console.log('Processing starting...');
       })
