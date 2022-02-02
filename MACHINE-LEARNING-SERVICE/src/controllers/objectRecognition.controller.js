@@ -20,7 +20,7 @@ class ObjectRecognitionController {
   static async recognizeObjects(req, res) {
     const { files: images } = req;
     const modelOne = new ObjectML(
-      path.join(__dirname, '../uploads/images/Dogs_cats.jpg'), 0.8, 'dog');
+      path.join(__dirname, '../uploads/images/'), 0.8, 'dog');
     const result = await modelOne.predict();
     if (result.length === 0) {
       return res.json({msg: 'There is not the object in the image.'});
