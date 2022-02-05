@@ -1,4 +1,5 @@
 const path = require('path');
+const CommandException = require('../common/command_exception');
 const Command = require('./command');
 
 class JavaCommand extends Command {
@@ -24,10 +25,9 @@ class JavaCommand extends Command {
                 path.dirname(this.filePath) +
                 JAVA_SPACE +
                 path.parse(this.filePath).name;
-            
             return command;
         } catch(error) {
-            throw new Error('Error building java command.', error)
+            throw new CommandException('Error building java command.')
         }
     }
 }

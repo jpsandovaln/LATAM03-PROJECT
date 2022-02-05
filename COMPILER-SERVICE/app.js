@@ -25,18 +25,25 @@ const upload = multer({ storage: storage });
 app.post('/api/v1/compiler', upload.single('file'), async(req, res) => {
   const { file, body } = req;
   let command = '';
-  if (body.lang === 'java') {
-    const langCommand = new JavaCommand(file.path, '"C:/Program Files/Java/jdk1.8.0_251/bin/"');
-    command = langCommand.build();
-  } else if (body.lang === 'python') {
-    const langCommand = new PythonCommand(file.path, 'C:/python39/');
-    command = langCommand.build();
- } else {
-    res.send('Language not support.');
+  try {
+    if (body.lang === 'java') {
+      const langCommand = new JavaCommand(file.path, '"C:/Program Files/Java/jdk1.8.0_251/bin/"');
+      command = langCommand.build();
+    } else if (body.lang === 'python') {
+      const langCommand = new PythonCommand(file.path, 'C:/python39/');
+      command = langCommand.build();
+    } else {
+      res.send('Language not support.');
+    }
+    const execute = new Execute();
+    const result = await execute.run(command);  
+    res.send(result.stdout);
+  } catch(error) {
+    res.status(error.getStatus()).send({
+      message: error.message,
+      code: error.getStatus()
+    });
   }
-  const execute = new Execute();
-  const result = await execute.run(command);  
-  res.send(result.stdout);
 });
 
 const port = process.env.PORT || 8080;
