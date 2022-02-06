@@ -17,7 +17,7 @@ const fs = require('fs');
 const uploadFileMiddleware = () => {
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      const pathFile =  `${__dirname}/../uploadsfolder/${file.mimetype.split('/')[0]}/`;
+      const pathFile =  `${__dirname}/../uploadsfolder/${file.mimetype.split('/')[0]}-${file.originalname.split('.')[0]}/`;
       fs.mkdirSync(pathFile, {recursive:true});
       cb(null, pathFile);
     },

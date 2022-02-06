@@ -16,7 +16,7 @@ module.exports = class DownloadController {
     
   //Receives the name of the file and returns the download link
   static downloadVideo(req, res) {
-    const pathDownload =`${__dirname}/../../files/zips/${req.params.name}`;
+    const pathDownload =`${__dirname}/../downloadfiles/zips/${req.params.name}`;
     //fs.mkdirSync(pathDownload, {recursive:true});
     res.download(pathDownload);
   }

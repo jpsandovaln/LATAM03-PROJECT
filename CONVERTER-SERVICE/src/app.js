@@ -22,5 +22,6 @@ const port = process.env.PORT || 8080;
 
 app.use(process.env.URL + 'convert', require('./routes/converter.routes'));
 app.use(process.env.URL + 'download', require('./routes/download.routes'));
+app.use(process.env.URL + 'image', require('./routes/image.routes'));
 
 app.listen(port, () => console.log(`Example app listening at ${port}`));

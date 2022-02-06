@@ -18,12 +18,10 @@ module.exports = class Upload {
     const formatSupported = process.env.FORMATSUPPORTED;
     
     if (formatSupported.includes(mimetype.split('/')[1])) {
-      const videoData = {
+      const fileData = {
         input: originalname,
-        fps: 1,
-        finalSize: '100%',
       };
-      return videoData;
+      return fileData;
     }
     return false;
   }
