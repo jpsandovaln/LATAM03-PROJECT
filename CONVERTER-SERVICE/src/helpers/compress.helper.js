@@ -21,7 +21,7 @@ module.exports = class Compress {
 
     zip.addLocalFolder(`${__dirname}/../uploadsfolder/video-${input.split('.')[0]}/imagefps-${input.split('.')[0]}/`);
     const fileName = `${Date.now()}-${input.split('.')[0]}.zip`;
-    const outputPath = `${__dirname}/../downloadfiles/zips`;
+    const outputPath = `${__dirname}/../downloadfiles/zip`;
     fs.mkdirSync(outputPath, {recursive:true});
     fs.writeFileSync(outputPath + `/${fileName}`, zip.toBuffer());
 

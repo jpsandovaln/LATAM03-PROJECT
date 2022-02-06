@@ -37,7 +37,7 @@ module.exports = class ImageController{
     }
 
     const inputPath = `${__dirname}/../uploadsfolder/image-${req.file.originalname.split('.')[0]}/${req.file.originalname}`;
-    const savePath = `${__dirname}/../uploadsfolder/image-${req.file.originalname.split('.')[0]}/convert-${req.file.originalname.split('.')[0]}`;
+    const savePath = `${__dirname}/../downloadfiles/${format}`;
     fs.mkdirSync(savePath, {recursive:true});
 
     const convertImage = new ImageConverter(inputPath, `${savePath}/transform-${req.file.originalname.split('.')[0]}`, size, format, Number(rotate), true, false, false);

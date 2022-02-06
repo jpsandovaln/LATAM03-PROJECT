@@ -27,7 +27,7 @@ module.exports = class ConverterController {
     }
     const savePath = `${__dirname}/../uploadsfolder/video-${req.file.originalname.split('.')[0]}/imagefps-${req.file.originalname.split('.')[0]}`;
     fs.mkdirSync(savePath, {recursive:true});
-    const convertVideo = new VideoConverter(`${__dirname}/../uploadsfolder/video-${req.file.originalname.split('.')[0]}/${req.file.originalname}`, `${savePath}/%2d.jpg`, fps, imageSize);
+    const convertVideo = new VideoConverter(`${__dirname}/../uploadsfolder/video-${req.file.originalname.split('.')[0]}/${req.file.originalname}`, `${savePath}/%2d.jpg`, Number(fps), imageSize);
     convertVideo.convert()
       .then(() => {
         const compressResponse = Compress.compressFile(uploadRespond.input);
