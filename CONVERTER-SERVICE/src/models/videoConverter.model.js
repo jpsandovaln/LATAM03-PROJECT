@@ -10,7 +10,7 @@ with Jalasoft.
 */
 
 const FfmpegCommand = require('fluent-ffmpeg');
-const Converter = require('./converter');
+const Converter = require('./converter.model');
 
 // Represents a model for convert Video into Images 
 class VideoConverter extends Converter{

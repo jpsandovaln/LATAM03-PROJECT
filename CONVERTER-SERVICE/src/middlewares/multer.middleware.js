@@ -11,12 +11,15 @@ with Jalasoft.
 */
 
 const multer = require('multer');
+const fs = require('fs');
 
 //Process the user request and saves a file in a destination 
 const uploadFileMiddleware = () => {
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, `${__dirname}/../../files/videos/`);
+      const pathFile =  `${__dirname}/../uploadsfolder/${file.mimetype.split('/')[0]}/`;
+      fs.mkdirSync(pathFile, {recursive:true});
+      cb(null, pathFile);
     },
     filename: (req, file, cb) => {
       cb(null, file.originalname);

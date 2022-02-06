@@ -13,9 +13,9 @@ with Jalasoft.
 module.exports = class Upload {
 
   //Receives the video from the server and saves it in the "files" local file
-  static uploadVideoMethod(params) {
+  static uploadVerified(params) {
     const { originalname, mimetype} = params;
-    const formatSupported = ['mov', 'm4a', '3gp', '3g2', 'mj2', 'mp4'];
+    const formatSupported = process.env.FORMATSUPPORTED;
     
     if (formatSupported.includes(mimetype.split('/')[1])) {
       const videoData = {

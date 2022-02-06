@@ -12,20 +12,21 @@ with Jalasoft.
 
 const Upload = require('../helpers/upload.helper');
 const Compress = require('../helpers/compress.helper');
-const VideoConverter = require('../converter/video.converter');
+const VideoConverter = require('../models/videoConverter.model');
 
 module.exports = class ConverterController {
   
   // Executes and verifies the response of the 3 methods involved in the project
   static convertVideo(req, res) {
-    const uploadRespond = Upload.uploadVideoMethod(req.file);
+    const uploadRespond = Upload.uploadVerified(req.file);
 
     if (!uploadRespond) {
       res.send('Insert a supported file');
       return;
     }
 
-    VideoConverter.converter(uploadRespond)
+    const convertVideo = new VideoConverter(`${__dirname}/../uploadsfolder/video/${req.file.originalname}`,`${__dirname}/../uploadsfolder/video/imagefps/%2d.jpg`, 1, '100%')
+    convertVideo.convert()
       .then(() => {
         const compressResponse = Compress.compressFile(uploadRespond.input);
         res.send(compressResponse);

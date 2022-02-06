@@ -10,10 +10,14 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft.
 */
 
+const fs = require('fs');
+
 module.exports = class DownloadController {
     
   //Receives the name of the file and returns the download link
   static downloadVideo(req, res) {
-    res.download(`${__dirname}/../../files/zips/${req.params.name}`);
+    const pathDownload =`${__dirname}/../../files/zips/${req.params.name}`;
+    //fs.mkdirSync(pathDownload, {recursive:true});
+    res.download(pathDownload);
   }
 };
