@@ -10,33 +10,51 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft
 */
 
+const objectAssign = require('object-assign');
 const path = require('path');
-const ObjectML = require('../models/objectML');
+const Decompress = require('../helpers/decompress.helper');
+const { threadId } = require('worker_threads');
+const CocoSsd = require('../models/cocoSsd.model');
+const Yolo = require('../models/yolo.model');
 
-// Represents a controller layer 
+//Controls the model that will be used to detect the object
 class ObjectRecognitionController {
-    
-  // Recognizes an object calling ObjectML class
-  static async recognizeObjects(req, res) {
-    const { files: images } = req;
-    const modelOne = new ObjectML(
-      path.join(__dirname, '../uploads/images/'), 0.8, 'dog');
-    const result = await modelOne.predict();
-    if (result.length === 0) {
-      return res.json({msg: 'There is not the object in the image.'});
-    }
-    res.json({result});
-  }
 
-  // Downloads an image from uploads file
-  static downloadImage(req, res) {
-    const { image } = req.params;
-    const path = './uploads/images/' + image;
-    res.download(path, (err) => {
-      if (err) {
-        return res.json({ msg: err });
+  //Returns the results of the detection according to the model, object and percentage indicated
+  static async recognizeObject(req, res) {
+    const { zipName, percentage, object, model } = req.body;
+    const decompressedFilePath = Decompress.decompressFile(
+      `${__dirname}/../uploads/zips/${zipName}`
+    );
+    if (!decompressedFilePath) {
+      res.send('The file has not been unziped');
+      return;
+    }
+    if (model == 'coco') {
+      const cocoSsd = new CocoSsd(
+        path.join(__dirname, '../uploads/images/'),
+        percentage,
+        object
+      );
+      const result = await cocoSsd.predict();
+      if (result.length === 0) {
+        res.send(`There is not the object ${object} in the image`);
       }
-    });
+      res.send({ result });
+    } else if (model == 'yolo') {
+      const yolo = new Yolo(
+        path.join(__dirname, '../uploads/images/'),
+        percentage,
+        object
+      );
+      const result = await yolo.predict();
+      if (result.length === 0) {
+        res.send(`There is not the object ${object} in the image`);
+      }
+      res.send({ result });
+    } else {
+      res.send(`${model} is not a recognized model, you can choose between coco or yolo`);
+    }
   }
 }
 

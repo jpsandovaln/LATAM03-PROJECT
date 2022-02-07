@@ -11,9 +11,11 @@
   "dependencies": {
     "@tensorflow-models/coco-ssd": "^2.2.2",
     "@tensorflow/tfjs-node": "^3.13.0",
+    "adm-zip": "^0.5.9",
     "cors": "^2.8.5",
     "dotenv": "^14.3.2",
     "express": "^4.17.2",
+    "fs": "^0.0.1-security",
     "multer": "^1.4.4",
     "yolov5": "^1.0.11"
   }
