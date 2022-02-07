@@ -9,18 +9,19 @@ disclose such Confidential Information and shall use it only in
 accordance with the terms of the license agreement you entered into
 with Jalasoft.
 */
+
 const admZip = require('adm-zip');
 const fs = require('fs');
 
 //Decompress a zip file
-class Decompress{
-    //Receives a zipPath and extracts all the files to an specific folder. Returns true when the process finished
-    static decompressFile(zipPath){
-        const zip = new admZip(zipPath)
-        const filePath = `${__dirname}/../uploads/images/`
-        zip.extractAllTo(filePath, true);
-        console.log(fs.existsSync(filePath));
-        return fs.existsSync(filePath)
-    }
+class Decompress {
+  //Receives a zipPath and extracts all the files to an specific folder. Returns true when the process finished
+  static decompressFile(zipPath) {
+    const zip = new admZip(zipPath);
+    const filePath = `${__dirname}/../uploads/images/`;
+    zip.extractAllTo(filePath, true);
+    console.log(fs.existsSync(filePath));
+    return fs.existsSync(filePath);
+  }
 }
 module.exports = Decompress;

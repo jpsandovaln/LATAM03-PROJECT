@@ -39,7 +39,7 @@ class ObjectRecognitionController {
       );
       const result = await cocoSsd.predict();
       if (result.length === 0) {
-        res.send('There is not the object in the image');
+        res.send(`There is not the object ${object} in the image`);
       }
       res.send({ result });
     } else if (model == 'yolo') {
@@ -50,11 +50,11 @@ class ObjectRecognitionController {
       );
       const result = await yolo.predict();
       if (result.length === 0) {
-        res.send('There is not the object in the image');
+        res.send(`There is not the object ${object} in the image`);
       }
       res.send({ result });
     } else {
-      res.send('We still do not work with that model. you can choose between coco or yolo');
+      res.send(`${model} is not a recognized model, you can choose between coco or yolo`);
     }
   }
 }
