@@ -24,7 +24,7 @@ module.exports = class CompositerController {
     const backgroundImage = req.files.backgroundImage[0];
     const image = req.files.images[0];
     const images = [{ input: image.path, top, left }];
-    console.log(image);
+    
     const imageCompositer = new ImageCompositer(
       backgroundImage.path,
       images,
@@ -32,7 +32,6 @@ module.exports = class CompositerController {
       format
     );
     const compositerResponse = await imageCompositer.composite();
-    console.log(compositerResponse.response);
     if (!compositerResponse.response) {
       return res.json({msg: 'Something went wrong when trying to combine the images'});
     }

@@ -13,7 +13,6 @@ const fs = require('fs');
 const Upload = require('../helpers/upload.helper');
 const ImageConverter = require('./../models/imageConverter.model')
 
-
 module.exports = class ImageController{
 
   //Allows to receive the parameters needed by the ImageConverter.model and convert the image according to the user
@@ -40,7 +39,14 @@ module.exports = class ImageController{
     const savePath = `${__dirname}/../downloadfiles/${format}`;
     fs.mkdirSync(savePath, {recursive:true});
 
-    const convertImage = new ImageConverter(inputPath, `${savePath}/transform-${req.file.originalname.split('.')[0]}`, size, format, Number(rotate), isActiveGrayScale == 'true', isActiveMirrorEffect == 'true', isActiveNegative == 'true');
+    const convertImage = new ImageConverter(
+      inputPath,
+      `${savePath}/transform-${req.file.originalname.split('.')[0]}`,
+      size, format,
+      Number(rotate),
+      isActiveGrayScale == 'true',
+      isActiveMirrorEffect == 'true',
+      isActiveNegative == 'true');
     convertImage.convert()
     .then((result) => {
       res.send(`http://localhost:9090/api/v1/download/transform-${req.file.originalname.split('.')[0]}.${result.data.format}`)
