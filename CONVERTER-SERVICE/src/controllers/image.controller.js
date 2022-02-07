@@ -1,5 +1,5 @@
 /*
-@ObjectML.js Copyright (c) 2022 Jalasoft
+@image.controller.js Copyright (c) 2022 Jalasoft
 CI 26 Sur #48-41, Ayurá Center, Edificio Unión № 1376, Medellín, Colombia
 All rights reserved
 This software is the confidential and proprietary information of
@@ -27,27 +27,25 @@ module.exports = class ImageController{
       isActiveNegative} = req.body;
     
     const size = {
-      width: Number(Width),
-      height: Number(Height)
+      width: Number(Width) || null,
+      height: Number(Height) || null
     };
     const uploadRespond = Upload.uploadVerified(req.file);
     if (!uploadRespond) {
       res.send('Insert a supported file');
       return;
     }
-
-    const inputPath = `${__dirname}/../uploadsfolder/image-${req.file.originalname.split('.')[0]}/${req.file.originalname}`;
+    
+    const inputPath = req.file.path;
     const savePath = `${__dirname}/../downloadfiles/${format}`;
     fs.mkdirSync(savePath, {recursive:true});
 
-    const convertImage = new ImageConverter(inputPath, `${savePath}/transform-${req.file.originalname.split('.')[0]}`, size, format, Number(rotate), true, false, false);
-    let result = convertImage.convert()
+    const convertImage = new ImageConverter(inputPath, `${savePath}/transform-${req.file.originalname.split('.')[0]}`, size, format, Number(rotate), isActiveGrayScale == 'true', isActiveMirrorEffect == 'true', isActiveNegative == 'true');
+    convertImage.convert()
     .then((result) => {
-      console.log(result);
       res.send(`http://localhost:9090/api/v1/download/transform-${req.file.originalname.split('.')[0]}.${result.data.format}`)
     })
     .catch((result) => {
-      console.log(result);
       res.send('There was an error converting the image');
     });
   }

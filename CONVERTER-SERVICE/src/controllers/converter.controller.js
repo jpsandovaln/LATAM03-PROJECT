@@ -1,5 +1,5 @@
 /*
-@convert.controller.js Copyright (c) 2022 Jalasoft
+@converter.controller.js Copyright (c) 2022 Jalasoft
 2643 Av Melchor Perez de Olguin Colquiri Sud, Cochabamba, Bolivia.
 Av. General Inofuentes esquina Calle 20,Edificio Union № 1376, La Paz, Bolivia
 All rights reserved
@@ -27,7 +27,7 @@ module.exports = class ConverterController {
     }
     const savePath = `${__dirname}/../uploadsfolder/video-${req.file.originalname.split('.')[0]}/imagefps-${req.file.originalname.split('.')[0]}`;
     fs.mkdirSync(savePath, {recursive:true});
-    const convertVideo = new VideoConverter(`${__dirname}/../uploadsfolder/video-${req.file.originalname.split('.')[0]}/${req.file.originalname}`, `${savePath}/%2d.jpg`, Number(fps), imageSize);
+    const convertVideo = new VideoConverter(req.file.path, `${savePath}/%2d.jpg`, Number(fps), imageSize);
     convertVideo.convert()
       .then(() => {
         const compressResponse = Compress.compressFile(uploadRespond.input);
