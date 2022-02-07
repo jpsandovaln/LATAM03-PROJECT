@@ -30,11 +30,9 @@ class ImageCompositer {
     .toFile(this._savePath + '.' + this._format)
     .then((image) => {
       const { format, width, height, size} = image;
-      console.log(image)
       return {response: true, image: {format, width, height, size}};
     })
     .catch((error) => {
-      console.log(error)
       return {response: false, error: error.toString()};
     });
   }
