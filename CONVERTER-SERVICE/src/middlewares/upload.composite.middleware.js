@@ -1,5 +1,6 @@
 /*
-@multer.middleware.js Copyright (c) 2022 Jalasoft
+@upload.composite.middleware.js Copyright (c) 2022 Jalasoft
+CI 26 Sur #48-41, Ayurá Center, Edificio Unión № 1376, Medellín, Colombia
 2643 Av Melchor Perez de Olguin Colquiri Sud, Cochabamba, Bolivia.
 Av. General Inofuentes esquina Calle 20,Edificio Union № 1376, La Paz, Bolivia
 All rights reserved
@@ -14,19 +15,19 @@ const multer = require('multer');
 const fs = require('fs');
 
 //Process the user request and saves a file in a destination 
-const uploadFileMiddleware = () => {
+const uploadImageFieldsMiddleware = () => {
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      const pathFile =  `${__dirname}/../uploadsfolder/${file.mimetype.split('/')[0]}-${file.originalname.split('.')[0]}/`;
+      const pathFile =  `${__dirname}/../uploadsfolder/compound/`;
       fs.mkdirSync(pathFile, {recursive:true});
-      cb(null, pathFile);
+      cb(null, pathFile);;
     },
     filename: (req, file, cb) => {
       cb(null, file.originalname);
     },
   });
-  const upload = multer({ storage }).single('file');
+  const upload = multer({ storage }).fields( [{name: 'backgroundImage', maxCount:1}, {name:'images', maxCount: 1}] );
   return upload;
 };
 
-module.exports = { uploadFileMiddleware };
+module.exports = { uploadImageFieldsMiddleware };

@@ -10,7 +10,7 @@ with Jalasoft.
 */
 
 const sharp =  require('sharp');
-const Converter = require('./converter');
+const Converter = require('./converter.model');
 
 // Builds to convert image type file and extends from the Converter abstract class
 class ImageConverter extends Converter{

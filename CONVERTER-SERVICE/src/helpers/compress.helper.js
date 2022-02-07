@@ -19,11 +19,12 @@ module.exports = class Compress {
   static compressFile(input) {
     const zip = new admzip();
 
-    zip.addLocalFolder(`${__dirname}/../../files/images/`);
+    zip.addLocalFolder(`${__dirname}/../uploadsfolder/video-${input.split('.')[0]}/imagefps-${input.split('.')[0]}/`);
     const fileName = `${Date.now()}-${input.split('.')[0]}.zip`;
-    const outputPath = `${__dirname}/../../files/zips/${fileName}`;
-    fs.writeFileSync(outputPath, zip.toBuffer());
+    const outputPath = `${__dirname}/../downloadfiles/zip`;
+    fs.mkdirSync(outputPath, {recursive:true});
+    fs.writeFileSync(outputPath + `/${fileName}`, zip.toBuffer());
 
-    return `http://localhost:9090/api/download/${fileName}`;
+    return `http://localhost:9090/api/v1/download/${fileName}`;
   }
 };
