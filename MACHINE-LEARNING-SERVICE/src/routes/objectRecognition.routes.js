@@ -16,9 +16,6 @@ const ObjectRecognitionController = require('../controllers/objectRecognition.co
 const {uploadImagesMiddleware} = require('../middlewares/multer.middleware');
 
 // Routes to handle the request of the object recognition endpoint
-router.post('/recognize-objects', uploadImagesMiddleware(), ObjectRecognitionController.recognizeObjects);
-
-// Routes to handle the request of the image downloading endpoint
-router.get('/download-image/:image', ObjectRecognitionController.downloadImage);
+router.post('/recognize-objects', uploadImagesMiddleware(), ObjectRecognitionController.recognizeObject);
 
 module.exports = router;

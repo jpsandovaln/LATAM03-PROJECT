@@ -24,7 +24,6 @@ function uploadImagesMiddleware() {
   });
   const upload = multer({
     storage,
-    limits: { fileSize: 50000 },
   }).array('images');
   return upload;
 }
