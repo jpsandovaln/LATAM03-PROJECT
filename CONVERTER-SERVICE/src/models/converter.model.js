@@ -1,5 +1,5 @@
 /*
-@Video.converter.js Copyright (c) 2022 Jalasoft
+@converter.model.js Copyright (c) 2022 Jalasoft
 CI 26 Sur #48-41, Ayurá Center, Edificio Unión № 1376, Medellín, Colombia
 All rights reserved
 This software is the confidential and proprietary information of
