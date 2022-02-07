@@ -15,13 +15,14 @@ const fs = require('fs');
 
 //Decompress a zip file
 class Decompress {
+
   //Receives a zipPath and extracts all the files to an specific folder. Returns true when the process finished
   static decompressFile(zipPath) {
     const zip = new admZip(zipPath);
     const filePath = `${__dirname}/../uploads/images/`;
     zip.extractAllTo(filePath, true);
-    console.log(fs.existsSync(filePath));
     return fs.existsSync(filePath);
   }
 }
+
 module.exports = Decompress;

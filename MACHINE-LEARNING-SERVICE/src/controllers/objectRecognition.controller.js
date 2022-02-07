@@ -22,10 +22,9 @@ class ObjectRecognitionController {
 
   //Returns the results of the detection according to the model, object and percentage indicated
   static async recognizeObject(req, res) {
-    const { percentage, object, model } = req.body;
-    console.log(req.body);
+    const { zipName, percentage, object, model } = req.body;
     const decompressedFilePath = Decompress.decompressFile(
-      `${__dirname}/../uploads/zips/animales.zip`
+      `${__dirname}/../uploads/zips/${zipName}`
     );
     if (!decompressedFilePath) {
       res.send('The file has not been unziped');
@@ -58,4 +57,5 @@ class ObjectRecognitionController {
     }
   }
 }
+
 module.exports = ObjectRecognitionController;
