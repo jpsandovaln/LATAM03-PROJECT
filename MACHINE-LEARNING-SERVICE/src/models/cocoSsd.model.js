@@ -11,6 +11,7 @@ with Jalasoft.
 
 const cocoSsd = require('@tensorflow-models/coco-ssd');
 const tf = require('@tensorflow/tfjs-node');
+const MachineLearningException = require('../Exceptions/marchine_learning_exception');
 const fs = require('fs').promises;
 const FilterResults = require('../helpers/filterResults.helper');
 const ObjectDetection = require('./objectDetection.model');
@@ -27,25 +28,29 @@ class CocoSsd extends ObjectDetection {
 
   // Allows to load the model and decode the image in order to make a detection of the desired object.
   async predict() {
-    const model = await cocoSsd.load();
-    const imagesArray = await fs.readdir(this.pathFile);
+    try {
+      const model = await cocoSsd.load();
+      const imagesArray = await fs.readdir(this.pathFile);
 
-    const imagesToPredictArray = await Promise.all(
-      imagesArray.map(async (fileName) => {
-        const img = await fs.readFile(`${this.pathFile}${fileName}`);
-        const imgTensor = tf.node.decodeImage(new Uint8Array(img), 3);
-        const predict = await model.detect(imgTensor);
-        const data = { predict, fileName };
-        return data;
-      })
-    );
+      const imagesToPredictArray = await Promise.all(
+        imagesArray.map(async (fileName) => {
+          const img = await fs.readFile(`${this.pathFile}${fileName}`);
+          const imgTensor = tf.node.decodeImage(new Uint8Array(img), 3);
+          const predict = await model.detect(imgTensor);
+          const data = { predict, fileName };
+          return data;
+        })
+      );
 
-    const foundObjectsArray = FilterResults.filterFunction(
-      imagesToPredictArray,
-      this.objectRequired,
-      this.percentage
-    );
-    return foundObjectsArray;
+      const foundObjectsArray = FilterResults.filterFunction(
+        imagesToPredictArray,
+        this.objectRequired,
+        this.percentage
+      );
+      return foundObjectsArray;
+    } catch (error) {
+      throw new MachineLearningException('Error building model COCO.','MachineLearning Error');
+    }
   }
 }
 
