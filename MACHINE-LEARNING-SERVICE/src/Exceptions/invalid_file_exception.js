@@ -11,10 +11,10 @@ with Jalasoft.
 
 const ServerException = require("./server_exception");
 
-class MachineLearningException extends ServerException {
+class InvalidFileException extends ServerException {
   constructor(message, code){
-    super(message, '404', code);
+    super(message, '400', code);
   }
 }
 
-module.exports = MachineLearningException;
+module.exports = InvalidFileException;

@@ -40,7 +40,7 @@ class Yolo extends ObjectDetection {
       const imagesToPredictArray = await Promise.all(
         imagesArray.map(async (fileName) => {
           const img = await fs.readFile(`${this.pathFile}${fileName}`);
-          const imgDecoded = tfnode.node.decodeImage(img, 1);
+          const imgDecoded = tfnode.node.decodeImage(img, 3);
           const imgResized = tf.image.resizeBilinear(imgDecoded, [640, 640]);
           const image = tf
             .cast(imgResized, 'float32')

@@ -24,7 +24,7 @@ function uploadImagesMiddleware() {
   });
   const upload = multer({
     storage,
-  }).array('images');
+  }).array('file');
   return upload;
 }
 

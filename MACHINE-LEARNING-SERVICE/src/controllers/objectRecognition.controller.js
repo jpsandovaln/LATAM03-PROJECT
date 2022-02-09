@@ -16,6 +16,7 @@ const Decompress = require('../helpers/decompress.helper');
 const { threadId } = require('worker_threads');
 const CocoSsd = require('../models/cocoSsd.model');
 const Yolo = require('../models/yolo.model');
+const InvalidFileException = require('../Exceptions/invalid_file_exception');
 
 //Controls the model that will be used to detect the object
 class ObjectRecognitionController {
@@ -23,6 +24,7 @@ class ObjectRecognitionController {
   //Returns the results of the detection according to the model, object and percentage indicated
   static async recognizeObject(req, res) {
     const { zipName, percentage, object, model } = req.body;
+    console.log(typeof zipName !== 'undefined');
     try{
     const decompressedFilePath = Decompress.decompressFile(
       `${__dirname}/../uploads/zips/${zipName}`
@@ -30,20 +32,16 @@ class ObjectRecognitionController {
     if (!decompressedFilePath) {
       res.send('The file has not been unziped');
       return;
-    }}catch(error){
-      res.send({
-        message: error.message,
-        code: "Invalid file "
-      });
     }
     
     if (model == 'coco') {
+      try{
       const cocoSsd = new CocoSsd(
         path.join(__dirname, '../uploads/images/'),
         percentage,
         object
       );
-      try{
+      
       const result = await cocoSsd.predict();
       if (result.length === 0) {
         res.send(`There is not the object ${object} in the image`);
@@ -79,6 +77,12 @@ class ObjectRecognitionController {
     } else {
       res.send(`${model} is not a recognized model, you can choose between coco or yolo`);
     }
+  }catch(error){
+    res.status(error.status).send({
+      message: error.message,
+      code: error.code
+    });
+  }
   }
 }
 

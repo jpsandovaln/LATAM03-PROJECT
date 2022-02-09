@@ -12,16 +12,21 @@ with Jalasoft.
 
 const admZip = require('adm-zip');
 const fs = require('fs');
+const InvalidFileException = require('../Exceptions/invalid_file_exception');
 
 //Decompress a zip file
 class Decompress {
 
   //Receives a zipPath and extracts all the files to an specific folder. Returns true when the process finished
   static decompressFile(zipPath) {
-    const zip = new admZip(zipPath);
-    const filePath = `${__dirname}/../uploads/images/`;
-    zip.extractAllTo(filePath, true);
+    try{
+      const zip = new admZip(zipPath);
+      const filePath = `${__dirname}/../uploads/images/`;
+      zip.extractAllTo(filePath, true);
     return fs.existsSync(filePath);
+    }catch(error){
+      throw new InvalidFileException('The file is an Invalid File','InvalidFile');
+    }
   }
 }
 
