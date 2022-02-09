@@ -1,5 +1,5 @@
 /*
-@image.routes.js Copyright (c) 2022 Jalasoft
+@imageConverter.routes.js Copyright (c) 2022 Jalasoft
 CI 26 Sur #48-41, Ayurá Center, Edificio Unión № 1376, Medellín, Colombia
 All rights reserved
 This software is the confidential and proprietary information of
@@ -11,9 +11,9 @@ with Jalasoft.
 
 const { Router } = require('express');
 const router = Router();
-const { uploadFileMiddleware } = require('./../middlewares/multer.middleware');
-const ImageController = require('./../controllers/image.controller');
+const uploadImageMiddleware = require('../middlewares/imageMulter.middleware');
+const ImageConverterController = require('./../controllers/imageConverter.controller');
 
-router.post('/', uploadFileMiddleware(), ImageController.convertImage);
+router.post('/', uploadImageMiddleware(), ImageConverterController.convertImage);
 
 module.exports = router;

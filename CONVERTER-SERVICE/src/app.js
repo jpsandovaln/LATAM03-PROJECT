@@ -21,9 +21,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 const port = process.env.PORT || 8080;
 
-app.use(process.env.URL + 'convert', require('./routes/converter.routes'));
+app.use(process.env.URL + 'convert-video', require('./routes/videoConverter.routes'));
 app.use(process.env.URL + 'download', require('./routes/download.routes'));
-app.use(process.env.URL + 'image', require('./routes/image.routes'));
+app.use(process.env.URL + 'convert-image', require('./routes/imageConverter.routes'));
 app.use(process.env.URL + 'composite', require('./routes/compositer.routes'));
+app.use(process.env.URL + 'convert-doc-pdf', require('./routes/docFileConverter.routes'));
 
 app.listen(port, () => console.log(`Example app listening at ${port}`));

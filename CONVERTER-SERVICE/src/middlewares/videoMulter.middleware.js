@@ -1,5 +1,5 @@
 /*
-@multer.middleware.js Copyright (c) 2022 Jalasoft
+@videoMulter.middleware.js Copyright (c) 2022 Jalasoft
 2643 Av Melchor Perez de Olguin Colquiri Sud, Cochabamba, Bolivia.
 Av. General Inofuentes esquina Calle 20,Edificio Union № 1376, La Paz, Bolivia
 All rights reserved
@@ -13,12 +13,14 @@ with Jalasoft.
 const multer = require('multer');
 const fs = require('fs');
 
-//Process the user request and saves a file in a destination 
-const uploadFileMiddleware = () => {
+//Process the user request and saves a file in a destination
+const uploadVideoMiddleware = () => {
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      const pathFile =  `${__dirname}/../uploadsfolder/${file.mimetype.split('/')[0]}-${file.originalname.split('.')[0]}/`;
-      fs.mkdirSync(pathFile, {recursive:true});
+      const pathFile = `${__dirname}/../../files/convertVideo/videos/${
+        file.mimetype.split('/')[0]
+      }-${file.originalname.split('.')[0]}/`;
+      fs.mkdirSync(pathFile, { recursive: true });
       cb(null, pathFile);
     },
     filename: (req, file, cb) => {
@@ -29,4 +31,4 @@ const uploadFileMiddleware = () => {
   return upload;
 };
 
-module.exports = { uploadFileMiddleware };
+module.exports = uploadVideoMiddleware;

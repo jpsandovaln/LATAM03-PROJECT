@@ -11,48 +11,59 @@ with Jalasoft.
 
 const fs = require('fs');
 const Upload = require('../helpers/upload.helper');
-const ImageConverter = require('./../models/imageConverter.model')
+const ImageConverter = require('../models/imageConverter.model');
+const Converter = require('./converter.controller');
+const { PORT, URL, URLBASE } = process.env;
 
-module.exports = class ImageController{
-
+module.exports = class ImageConverterController extends Converter {
+  
   //Allows to receive the parameters needed by the ImageConverter.model and convert the image according to the user
-  static convertImage(req, res){
-    const {Width,
+  static convertImage(req, res) {
+    const {
+      Width,
       Height,
       format,
       rotate,
       isActiveGrayScale,
       isActiveMirrorEffect,
-      isActiveNegative} = req.body;
-    
+      isActiveNegative,
+    } = req.body;
+
     const size = {
       width: Number(Width) || null,
-      height: Number(Height) || null
+      height: Number(Height) || null,
     };
+
     const uploadRespond = Upload.uploadVerified(req.file);
     if (!uploadRespond) {
       res.send('Insert a supported file');
       return;
     }
-    
+
     const inputPath = req.file.path;
-    const savePath = `${__dirname}/../downloadfiles/${format}`;
-    fs.mkdirSync(savePath, {recursive:true});
+    const fileName = req.file.originalname.split('.')[0];
+    const savePath = `${__dirname}/../../files/downloadFiles/transform-${fileName}`;
+    fs.mkdirSync(savePath, { recursive: true });
 
     const convertImage = new ImageConverter(
       inputPath,
-      `${savePath}/transform-${req.file.originalname.split('.')[0]}`,
-      size, format,
+      `${savePath}/transform-${fileName}`,
+      size,
+      format,
       Number(rotate),
       isActiveGrayScale == 'true',
       isActiveMirrorEffect == 'true',
-      isActiveNegative == 'true');
-    convertImage.convert()
-    .then((result) => {
-      res.send(`http://localhost:9090/api/v1/download/transform-${req.file.originalname.split('.')[0]}.${result.data.format}`)
-    })
-    .catch((result) => {
-      res.send('There was an error converting the image');
-    });
+      isActiveNegative == 'true'
+    );
+    convertImage
+      .convert()
+      .then((result) => {
+        res.json({
+          donwloadLink: `${URLBASE}${PORT}${URL}download/transform-${fileName}.${format}`,
+        });
+      })
+      .catch((result) => {
+        res.json({ msg: 'There was an error converting the image' });
+      });
   }
 };

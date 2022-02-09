@@ -1,5 +1,5 @@
 /*
-@convert.routes.js Copyright (c) 2022 Jalasoft
+@videoConvert.routes.js Copyright (c) 2022 Jalasoft
 2643 Av Melchor Perez de Olguin Colquiri Sud, Cochabamba, Bolivia.
 Av. General Inofuentes esquina Calle 20,Edificio Union № 1376, La Paz, Bolivia
 All rights reserved
@@ -12,9 +12,9 @@ with Jalasoft.
 
 const { Router } = require('express');
 const router = Router();
-const ConverterController = require('../controllers/converter.controller');
-const { uploadFileMiddleware } = require('../middlewares/multer.middleware');
+const VideoConverterController = require('../controllers/videoConverter.controller');
+const uploadVideoMiddleware = require('../middlewares/videoMulter.middleware');
 
-router.post('/', uploadFileMiddleware(), ConverterController.convertVideo);
+router.post('/', uploadVideoMiddleware(), VideoConverterController.convertVideo);
 
 module.exports = router;
