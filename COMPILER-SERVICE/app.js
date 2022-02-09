@@ -2,9 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const dotenv = require('dotenv');
-const JavaCommand = require('./src/model/java_command');
-const PythonCommand = require('./src/model/python_command');
-const Execute = require('./src/model/execute');
+const Compiler = require('./src/model/compiler')
 
 const app = express();
 dotenv.config();
@@ -24,24 +22,18 @@ const upload = multer({ storage: storage });
 
 app.post('/api/v1/compiler', upload.single('file'), async(req, res) => {
   const { file, body } = req;
-  let command = '';
+  let binaryPath = '';
   try {
     if (body.lang === 'java') {
-      const langCommand = new JavaCommand(file.path, '"C:/Program Files/Java/jdk1.8.0_251/bin/"');
-      command = langCommand.build();
+      binaryPath = '"' + process.env.JAVA_BINARY + '"';
     } else if (body.lang === 'python') {
-      const langCommand = new PythonCommand(file.path, 'C:/python39/');
-      command = langCommand.build();
-    } else {
-      res.send('Language not support.');
+      binaryPath = '"' + process.env.PYTHON_BINARY + '"';
     }
-    const execute = new Execute();
-    const result = await execute.run(command);  
-    res.send(result.stdout);
+    res.send(await Compiler.execute(file.path, binaryPath, body.lang)); 
   } catch(error) {
-    res.status(error.getStatus()).send({
+    res.status(error.status).send({
       message: error.message,
-      code: error.getStatus()
+      code: error.code
     });
   }
 });

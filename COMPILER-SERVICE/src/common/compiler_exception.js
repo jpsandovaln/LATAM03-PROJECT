@@ -5,11 +5,11 @@ class CompilerException extends Error {
         this._code = code;
     }
 
-    getStatus() {
+    get status() {
         return this._status;
     }
 
-    getCode() {
+    get code() {
         return this._code
     }
 }
