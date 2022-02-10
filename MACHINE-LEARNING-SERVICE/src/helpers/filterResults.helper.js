@@ -10,11 +10,17 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft
 */
 
+const MachineLearningException = require("../Exceptions/marchineLearning.exception");
+
+// Filters found objects according to the received parameters
 class FilterResults {
   
-  //Filters the found objects according to the received parameters
+  // Returns the object based on the parameters chosen by users
   static filterFunction(imagesToPredictArray, objectRequired, percentage) {
     const foundObjectsArray = [];
+    if(isNaN(percentage)){
+      throw new MachineLearningException('Machine learning parameters','ML-percentage');
+    }
     imagesToPredictArray.forEach((predictions) => {
       predictions.predict.every((prediction) => {
         if (

@@ -17,6 +17,7 @@ const fs = require('fs').promises;
 const yolov5 = require('yolov5');
 const FilerResults = require('../helpers/filterResults.helper');
 const ObjectDetection = require('./objectDetection.model');
+const MachineLearningException = require('../Exceptions/marchineLearning.exception');
 
 // Represents the object recognition system
 class Yolo extends ObjectDetection {
@@ -30,32 +31,40 @@ class Yolo extends ObjectDetection {
 
   // Allows to load the model and decode the image in order to make a detection of the desired object.
   async predict() {
-    const imagesArray = await fs.readdir(this.pathFile);
-    const yolo = yolov5;
-    await yolo.load();
+    
+    try {
+      const channels = 3;
+      const imagesArray = await fs.readdir(this.pathFile);
+      const yolo = yolov5;
+      await yolo.load();
 
-    const imagesToPredictArray = await Promise.all(
-      imagesArray.map(async (fileName) => {
-        const img = await fs.readFile(`${this.pathFile}${fileName}`);
-        const imgDecoded = tfnode.node.decodeImage(img, 3);
-        const imgResized = tf.image.resizeBilinear(imgDecoded, [640, 640]);
-        const image = tf
-          .cast(imgResized, 'float32')
-          .div(tf.scalar(255))
-          .expandDims(0);
-        const result = await yolo.predict(image);
-        const predict = yolo.getDetections(result);
-        const data = { predict, fileName };
-        return data;
-      })
-    );
+      const imagesToPredictArray = await Promise.all(
+        imagesArray.map(async (fileName) => {
+          const img = await fs.readFile(`${this.pathFile}${fileName}`);
+          const imgDecoded = tfnode.node.decodeImage(img, channels);
+          const imgResized = tf.image.resizeBilinear(imgDecoded, [640, 640]);
+          const image = tf
+            .cast(imgResized, 'float32')
+            .div(tf.scalar(255))
+            .expandDims(0);
+          const result = await yolo.predict(image);
+          const predict = yolo.getDetections(result);
+          const data = { predict, fileName };
+          return data;
+        })
+      ).catch(error =>{
+        throw new MachineLearningException('Error building model YOLO.', 'ML-02');
+      });
 
-    const foundObjectsArray = FilerResults.filterFunction(
-      imagesToPredictArray,
-      this.objectRequired,
-      this.percentage
-    );
-    return foundObjectsArray;
+      const foundObjectsArray = FilerResults.filterFunction(
+        imagesToPredictArray,
+        this.objectRequired,
+        this.percentage
+      );
+      return foundObjectsArray;
+    } catch (error) {
+      throw error;
+    }    
   }
 }
 
