@@ -10,33 +10,41 @@ with Jalasoft.
 */
 
 const FfmpegCommand = require('fluent-ffmpeg');
+const ConverterException = require('../Exceptions/converter.exception');
 const Converter = require('./converter.model');
 
-// Represents a model for convert Video into Images 
-class VideoConverter extends Converter{
-
+// Represents a model for convert Video into Images
+class VideoConverter extends Converter {
+  
   constructor(videoPath, savePath, fps, imageSize) {
     super();
     this._videoPath = videoPath;
     this._savePath = savePath;
     this._fps = fps;
-    this._imageSize = imageSize; 
+    this._imageSize = imageSize;
   }
-  
+
   // Allows to convert a video into an specif number of images by setting the Frames Per Second with an specific size, and extends from Converter abstract class
-  convert() {
-    return new Promise((resolve, reject) => {
-      FfmpegCommand(this._videoPath)
-      .size(this._imageSize)
-      .fps(this._fps)
-      .save(this._savePath)
-      .on('error', () => {
-        reject({response: false});
-      })
-      .on('end', () => {       
-        resolve({response: true});
+  async convert() {
+    try {
+      return await new Promise((resolve, reject) => {
+        FfmpegCommand(this._videoPath)
+          .size(this._imageSize)
+          .fps(this._fps)
+          .save(this._savePath)
+          .on('error', () => {
+            reject({ response: false });
+          })
+          .on('end', () => {
+            resolve({ response: true });
+          });
       });
-    });
+    } catch {
+      throw new ConverterException(
+        'There was an error converting the image',
+        'LATAM03'
+      );
+    }
   }
 }
 

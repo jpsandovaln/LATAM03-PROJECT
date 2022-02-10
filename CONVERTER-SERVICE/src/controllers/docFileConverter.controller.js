@@ -11,27 +11,43 @@ with Jalasoft.
 */
 
 const libre = require('libreoffice-convert');
+const ConverterException = require('../Exceptions/converter.exception');
+const Upload = require('../helpers/upload.helper');
 const Converter = require('./converter.controller');
 const fs = require('fs').promises;
 
-class docFileConverterController extends Converter{
+class docFileConverterController extends Converter {
 
+  // Converts .docx files to .pdf
   static async convert(req, res) {
+    const { originalname } = req.file;
+    const ext = '.pdf';
+    const folderPath = `${__dirname}/../../files/uploads/application-${
+      originalname.split('.')[0]
+    }`;
+    const inputPath = `${folderPath}/${originalname}`;
+    const outputPath = `${folderPath}/${originalname.split('.')[0]}${ext}`;
+
     try {
-      const ext = '.pdf';
-      const inputPath = `${__dirname}/../../files/convertDoc/doc/DocTest.docx`;
-      const outputPath = `${__dirname}/../../files/convertDoc/pdf/DocTest${ext}`;
+      Upload.uploadVerified(req.file, 'DOC');
 
       const file = await fs.readFile(inputPath);
+
       libre.convert(file, ext, undefined, (err, done) => {
         if (err) {
-          res.json({error: `Error converting file: ${err}`});
+          throw new ConverterException(
+            'There was an error converting the file',
+            'CS-LATAM03'
+          );
         }
         fs.writeFile(outputPath, done);
       });
       res.json({ message: 'Converted successfully' });
     } catch (error) {
-      res.json({ error: error });
+      res.status(error.status).send({
+        error: error.message,
+        code: error.code,
+      });
     }
   }
 }

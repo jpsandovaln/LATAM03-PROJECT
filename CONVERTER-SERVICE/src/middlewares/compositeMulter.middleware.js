@@ -16,9 +16,12 @@ const fs = require('fs');
 
 //Process the user request and saves a file in a destination
 const uploadCompositeMiddllware = () => {
+  
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      const pathFile = `${__dirname}/../../files/composite/`;
+      const pathFile = `${__dirname}/../../files/uploads/composite-${
+        file.originalname.split('.')[0]
+      }/`;
       fs.mkdirSync(pathFile, { recursive: true });
       cb(null, pathFile);
     },
@@ -26,11 +29,11 @@ const uploadCompositeMiddllware = () => {
       cb(null, file.originalname);
     },
   });
-  const upload = multer({ storage }).fields([
+
+  return multer({ storage }).fields([
     { name: 'backgroundImage', maxCount: 1 },
     { name: 'images', maxCount: 1 },
   ]);
-  return upload;
 };
 
 module.exports = uploadCompositeMiddllware;

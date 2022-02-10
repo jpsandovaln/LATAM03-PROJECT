@@ -14,9 +14,10 @@ with Jalasoft.
 const ImageCompositer = require('../models/imageCompositer.model');
 const fs = require('fs');
 const path = require('path');
+const Upload = require('../helpers/upload.helper');
 const { PORT, URL, URLBASE } = process.env;
 
-module.exports = class CompositerController {
+class CompositerController {
 
   // Executes and verifies the response of the 3 methods involved in the project
   static async compositeImages(req, res) {
@@ -26,32 +27,38 @@ module.exports = class CompositerController {
     const backgroundImage = req.files.backgroundImage[0];
     const image = req.files.images[0];
     const images = [{ input: image.path, top, left }];
-    const fileName = `composite-${image.originalname}`;
-    const downloadPath = path.join(__dirname, `../../files/downloadFiles/`);
-    const newFolder = `${downloadPath}${fileName.split('.')[0]}`;
-    const savePath = `${downloadPath}${fileName.split('.')[0]}/${
-      fileName.split('.')[0]
+    const compositeName = `${image.originalname.split('.')[0]}-${
+      backgroundImage.originalname.split('.')[0]
     }`;
+    const downloadPath = path.join(__dirname, `../../files/downloadFiles/`);
+    const newFolder = `${downloadPath}composite-${compositeName}`;
+    const savePath = `${newFolder}/composite-${compositeName}`;
 
-    fs.mkdirSync(newFolder, { recursive: true });
+    try {
+      Upload.uploadVerified(backgroundImage, 'IMAGE');
+      Upload.uploadVerified(image, 'IMAGE');
 
-    const imageCompositer = new ImageCompositer(
-      backgroundImage.path,
-      images,
-      savePath,
-      format
-    );
-    
-    const compositerResponse = await imageCompositer.composite();
-    if (!compositerResponse.response) {
-      return res.json({
-        msg: 'Something went wrong when trying to combine the images',
+      fs.mkdirSync(newFolder, { recursive: true });
+
+      const imageCompositer = new ImageCompositer(
+        backgroundImage.path,
+        images,
+        savePath,
+        format
+      );
+
+      await imageCompositer.composite();
+
+      res.json({
+        donwloadLink: `${URLBASE}${PORT}${URL}download/composite-${compositeName}.${format}`,
+      });
+    } catch (error) {
+      res.status(error.status).send({
+        error: error.message,
+        code: error.code,
       });
     }
-    res.json({
-      donwloadLink: `${URLBASE}${PORT}${URL}download/${
-        fileName.split('.')[0]
-      }.${format}`,
-    });
   }
-};
+}
+
+module.exports = CompositerController;

@@ -11,9 +11,9 @@ with Jalasoft.
 
 const { Router } = require('express');
 const router = Router();
-const uploadImageMiddleware = require('../middlewares/imageMulter.middleware');
 const ImageConverterController = require('./../controllers/imageConverter.controller');
+const upload = require('../middlewares/multer.middleware');
 
-router.post('/', uploadImageMiddleware(), ImageConverterController.convertImage);
+router.post('/', upload(), ImageConverterController.convert);
 
 module.exports = router;

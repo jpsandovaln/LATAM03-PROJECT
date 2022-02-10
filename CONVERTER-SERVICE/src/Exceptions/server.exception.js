@@ -1,5 +1,5 @@
 /*
-@downloadFile.controller.js Copyright (c) 2022 Jalasoft
+@server.exception.js Copyright (c) 2022 Jalasoft
 2643 Av Melchor Perez de Olguin Colquiri Sud, Cochabamba, Bolivia.
 Av. General Inofuentes esquina Calle 20,Edificio Union № 1376, La Paz, Bolivia
 All rights reserved
@@ -10,17 +10,24 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft.
 */
 
-class DownloaFileController {
+// Exception in case of invalid files
+class ServerException extends Error {
   
-  //Receives the name of the file and returns the download link
-  static downloadFile(req, res) {
-    const { name } = req.params;
-    console.log(name);
-    const pathDownload = `${__dirname}/../../files/downloadFiles/${
-      name.split('.')[0]
-    }`;
-    res.download(pathDownload + `/${name}`);
+  constructor(error, status, code) {
+    super(error);
+    this._status = status;
+    this._code = code;
+  }
+
+  //gets the status of the error
+  get status() {
+    return this._status;
+  }
+
+  //gets the code of the error
+  get code() {
+    return this._code;
   }
 }
 
-module.exports = DownloaFileController;
+module.exports = ServerException;

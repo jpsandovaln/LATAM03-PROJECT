@@ -13,8 +13,8 @@ with Jalasoft.
 const { Router } = require('express');
 const router = Router();
 const docFileConverterController = require('../controllers/docFileConverter.controller');
-const uploadDocFileMiddleware = require('../middlewares/docFileMulter.middelware')
+const upload = require('../middlewares/multer.middleware');
 
-router.post('/', uploadDocFileMiddleware(), docFileConverterController.convert);
+router.post('/', upload(), docFileConverterController.convert);
 
 module.exports = router;
