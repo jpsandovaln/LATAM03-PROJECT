@@ -1,5 +1,5 @@
 /*
-@cocoSsd.model.js Copyright (c) 2022 Jalasoft
+@server.exception.js Copyright (c) 2022 Jalasoft
 CI 26 Sur #48-41, Ayurá Center, Edificio Unión № 1376, Medellín, Colombia
 All rights reserved
 This software is the confidential and proprietary information of
@@ -9,12 +9,20 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft.
 */
 
-const ServerException = require("./server_exception");
+class ServerException extends Error {
+  constructor(message, status, code){
+    super(message);
+    this._status = status;
+    this._code = code;
+  }
 
-class InvalidFileException extends ServerException {
-  constructor(message, code){
-    super(message, '400', code);
+  get status(){
+    return this._status;
+  }
+
+  get code(){
+      return this._code;
   }
 }
 
-module.exports = InvalidFileException;
+module.exports = ServerException;

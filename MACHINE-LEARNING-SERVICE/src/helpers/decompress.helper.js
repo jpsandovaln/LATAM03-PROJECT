@@ -12,7 +12,7 @@ with Jalasoft.
 
 const admZip = require('adm-zip');
 const fs = require('fs');
-const InvalidFileException = require('../Exceptions/invalid_file_exception');
+const InvalidFileException = require('../Exceptions/invalidFile.exception');
 
 //Decompress a zip file
 class Decompress {

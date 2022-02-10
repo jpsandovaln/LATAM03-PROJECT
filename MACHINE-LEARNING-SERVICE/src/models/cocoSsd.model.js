@@ -11,7 +11,7 @@ with Jalasoft.
 
 const cocoSsd = require('@tensorflow-models/coco-ssd');
 const tf = require('@tensorflow/tfjs-node');
-const MachineLearningException = require('../Exceptions/marchine_learning_exception');
+const MachineLearningException = require('../Exceptions/marchineLearning.exception');
 const fs = require('fs').promises;
 const FilterResults = require('../helpers/filterResults.helper');
 const ObjectDetection = require('./objectDetection.model');
@@ -40,7 +40,9 @@ class CocoSsd extends ObjectDetection {
           const data = { predict, fileName };
           return data;
         })
-      );
+      ).catch(error =>{
+        throw new MachineLearningException('Error building model COCO.', 'ML-01');
+      });
 
       const foundObjectsArray = FilterResults.filterFunction(
         imagesToPredictArray,
@@ -49,7 +51,7 @@ class CocoSsd extends ObjectDetection {
       );
       return foundObjectsArray;
     } catch (error) {
-      throw new MachineLearningException('Error building model COCO.','MachineLearning Error');
+      throw error;
     }
   }
 }

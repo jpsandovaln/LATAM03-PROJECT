@@ -17,7 +17,7 @@ const fs = require('fs').promises;
 const yolov5 = require('yolov5');
 const FilerResults = require('../helpers/filterResults.helper');
 const ObjectDetection = require('./objectDetection.model');
-const MachineLearningException = require('../Exceptions/marchine_learning_exception');
+const MachineLearningException = require('../Exceptions/marchineLearning.exception');
 
 // Represents the object recognition system
 class Yolo extends ObjectDetection {
@@ -31,8 +31,8 @@ class Yolo extends ObjectDetection {
 
   // Allows to load the model and decode the image in order to make a detection of the desired object.
   async predict() {
+    
     try {
-      
       const imagesArray = await fs.readdir(this.pathFile);
       const yolo = yolov5;
       await yolo.load();
@@ -51,7 +51,9 @@ class Yolo extends ObjectDetection {
           const data = { predict, fileName };
           return data;
         })
-      );
+      ).catch(error =>{
+        throw new MachineLearningException('Error building model YOLO.', 'ML-02');
+      });
 
       const foundObjectsArray = FilerResults.filterFunction(
         imagesToPredictArray,
@@ -60,7 +62,7 @@ class Yolo extends ObjectDetection {
       );
       return foundObjectsArray;
     } catch (error) {
-      throw new MachineLearningException('Error building model YOLO.','MachineLearning Error')
+      throw error;
     }    
   }
 }

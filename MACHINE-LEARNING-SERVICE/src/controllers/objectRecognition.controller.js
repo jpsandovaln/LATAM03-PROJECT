@@ -16,7 +16,8 @@ const Decompress = require('../helpers/decompress.helper');
 const { threadId } = require('worker_threads');
 const CocoSsd = require('../models/cocoSsd.model');
 const Yolo = require('../models/yolo.model');
-const InvalidFileException = require('../Exceptions/invalid_file_exception');
+const InvalidFileException = require('../Exceptions/invalidFile.exception');
+const HandlerModel = require('../models/handler.model');
 
 //Controls the model that will be used to detect the object
 class ObjectRecognitionController {
@@ -25,64 +26,25 @@ class ObjectRecognitionController {
   static async recognizeObject(req, res) {
     const { zipName, percentage, object, model } = req.body;
     console.log(typeof zipName !== 'undefined');
-    try{
-    const decompressedFilePath = Decompress.decompressFile(
-      `${__dirname}/../uploads/zips/${zipName}`
-    );
-    if (!decompressedFilePath) {
-      res.send('The file has not been unziped');
-      return;
-    }
     
-    if (model == 'coco') {
-      try{
-      const cocoSsd = new CocoSsd(
-        path.join(__dirname, '../uploads/images/'),
-        percentage,
-        object
+    try{
+      const decompressedFilePath = Decompress.decompressFile(
+        `${__dirname}/../uploads/zips/${zipName}`
       );
-      
-      const result = await cocoSsd.predict();
-      if (result.length === 0) {
-        res.send(`There is not the object ${object} in the image`);
-      }else {
-      console.log(result);
-      res.send({ result });
+      if (!decompressedFilePath) {
+        res.send('The file has not been unziped');
+        return;
       }
-    }catch(error){
-        res.status(error.status).send({
-          message: error.message,
-          code: error.code
-        });
-      }
-    } else if (model == 'yolo') {
-      const yolo = new Yolo(
-        path.join(__dirname, '../uploads/images/'),
-        percentage,
-        object
-      );
-      try{
-      const result = await yolo.predict();
-      if (result.length === 0) {
-        res.send(`There is not the object ${object} in the image`);
-      }else{
-      res.send({ result });
-      }
+    
+    const chooseModel = await HandlerModel.chooseModel(model, object, percentage);
+    res.send(chooseModel);
+    
     }catch(error){
       res.status(error.status).send({
-        message: error.message,
-        code: error.code
+        Error: error.message,
+        Code: error.code
       });
     }
-    } else {
-      res.send(`${model} is not a recognized model, you can choose between coco or yolo`);
-    }
-  }catch(error){
-    res.status(error.status).send({
-      message: error.message,
-      code: error.code
-    });
-  }
   }
 }
 
