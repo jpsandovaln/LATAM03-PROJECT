@@ -14,26 +14,22 @@ const objectAssign = require('object-assign');
 const path = require('path');
 const Decompress = require('../helpers/decompress.helper');
 const { threadId } = require('worker_threads');
-const CocoSsd = require('../models/cocoSsd.model');
-const Yolo = require('../models/yolo.model');
 const InvalidFileException = require('../Exceptions/invalidFile.exception');
 const HandlerModel = require('../models/handler.model');
 
-//Controls the model that will be used to detect the object
+// Controls the model that will be used to detect the object
 class ObjectRecognitionController {
 
-  //Returns the results of the detection according to the model, object and percentage indicated
+  // Returns the results of the detection according to the model, object and percentage indicated
   static async recognizeObject(req, res) {
     const { zipName, percentage, object, model } = req.body;
-    console.log(typeof zipName !== 'undefined');
-    
+        
     try{
       const decompressedFilePath = Decompress.decompressFile(
         `${__dirname}/../uploads/zips/${zipName}`
       );
       if (!decompressedFilePath) {
-        res.send('The file has not been unziped');
-        return;
+        return res.send('The file has not been unziped');
       }
     
     const chooseModel = await HandlerModel.chooseModel(model, object, percentage);

@@ -14,8 +14,10 @@ const Yolo = require('../models/yolo.model');
 const path = require('path');
 const MachineLearningException = require('../Exceptions/marchineLearning.exception');
 
+// Allows to handle the model chosen by the user
 class HandlerModel {
-    
+  
+  // Chooses a model and returns the result with the prediction
   static async chooseModel(model, object, percentage){
     let result;
     

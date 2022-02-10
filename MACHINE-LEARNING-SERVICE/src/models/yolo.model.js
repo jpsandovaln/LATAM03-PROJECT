@@ -33,6 +33,7 @@ class Yolo extends ObjectDetection {
   async predict() {
     
     try {
+      const channels = 3;
       const imagesArray = await fs.readdir(this.pathFile);
       const yolo = yolov5;
       await yolo.load();
@@ -40,7 +41,7 @@ class Yolo extends ObjectDetection {
       const imagesToPredictArray = await Promise.all(
         imagesArray.map(async (fileName) => {
           const img = await fs.readFile(`${this.pathFile}${fileName}`);
-          const imgDecoded = tfnode.node.decodeImage(img, 3);
+          const imgDecoded = tfnode.node.decodeImage(img, channels);
           const imgResized = tf.image.resizeBilinear(imgDecoded, [640, 640]);
           const image = tf
             .cast(imgResized, 'float32')

@@ -31,11 +31,11 @@ class CocoSsd extends ObjectDetection {
     try {
       const model = await cocoSsd.load();
       const imagesArray = await fs.readdir(this.pathFile);
-
+      const channels = 3;
       const imagesToPredictArray = await Promise.all(
         imagesArray.map(async (fileName) => {
           const img = await fs.readFile(`${this.pathFile}${fileName}`);
-          const imgTensor = tf.node.decodeImage(new Uint8Array(img), 3);
+          const imgTensor = tf.node.decodeImage(new Uint8Array(img), channels);
           const predict = await model.detect(imgTensor);
           const data = { predict, fileName };
           return data;

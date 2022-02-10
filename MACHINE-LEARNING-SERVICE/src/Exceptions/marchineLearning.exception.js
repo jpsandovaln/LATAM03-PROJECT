@@ -11,9 +11,12 @@ with Jalasoft.
 
 const ServerException = require("./server.exception");
 
+// Error exception for machine learning models
 class MachineLearningException extends ServerException {
+  
   constructor(message, code){
-    super(message, '404', code);
+    const status = '404';
+    super(message, status, code);
   }
 }
 
