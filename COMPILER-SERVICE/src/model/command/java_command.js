@@ -1,6 +1,6 @@
 const path = require('path');
-const CommandException = require('../common/command_exception');
-const Command = require('./command');
+const CommandException = require('../../common/command_exception');
+const Command = require('../command');
 
 class JavaCommand extends Command {
     constructor(filePath, javaPath) {

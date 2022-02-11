@@ -1,5 +1,5 @@
-const CommandException = require("../common/command_exception");
-const Command = require("./command");
+const CommandException = require("../../common/command_exception");
+const Command = require("../command");
 
 const PYTHON_COMPILER = 'python ';
 
