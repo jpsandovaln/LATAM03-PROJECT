@@ -24,13 +24,13 @@ class FilterResults {
     imagesToPredictArray.forEach((predictions) => {
       predictions.predict.every((prediction) => {
         if (
-          objectRequired === prediction.class &&
-          prediction.score >= percentage
+          objectRequired === prediction.class  || objectRequired === prediction.className &&
+          prediction.score >= percentage  || prediction.probability >= percentage
         ) {
           foundObjectsArray.push({
             fileName: predictions.fileName,
-            object: prediction.class,
-            Score: prediction.score,
+            object: prediction.class || prediction.className ,
+            Score: prediction.score  || prediction.probability ,
           });
           return false;
         } else {

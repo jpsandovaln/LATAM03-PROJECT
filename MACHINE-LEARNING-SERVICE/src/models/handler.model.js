@@ -13,6 +13,7 @@ const CocoSsd = require('../models/cocoSsd.model');
 const Yolo = require('../models/yolo.model');
 const path = require('path');
 const MachineLearningException = require('../Exceptions/marchineLearning.exception');
+const MobileNet = require('./mobilenet.model');
 
 // Allows to handle the model chosen by the user
 class HandlerModel {
@@ -37,9 +38,18 @@ class HandlerModel {
       );
         
       result = await yolo.predict();
+
+      }else if (model == 'mobilenet') {
+        const mobilenet = new MobileNet(
+          path.join(__dirname, '../uploads/images/'),
+          percentage,
+          object
+        );
+          
+        result = await mobilenet.predict();
     } else {
       throw new MachineLearningException(
-        `${model} is not a recognized model, you can choose between coco or yolo`,
+        `${model} is not a recognized model, you can choose between coco, yolo or mobilenet`,
         'LATAM03'
       );
     }
