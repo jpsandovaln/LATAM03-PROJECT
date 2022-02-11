@@ -10,19 +10,28 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft.
 */
 
-module.exports = class Upload {
+const InvalidFileException = require('../Exceptions/invalidFile.exception');
 
+class Upload {
+  
   //Receives the video from the server and saves it in the "files" local file
-  static uploadVerified(params) {
-    const { originalname, mimetype} = params;
-    const formatSupported = process.env.FORMATSUPPORTED;
-    
+  static uploadVerified(params, type) {
+    let { originalname, mimetype } = params;
+
+    if (type === 'DOC') mimetype = 'file/docx';
+    const formatSupported = process.env[`FORMATS_SUPPORTED_${type}`];
+
     if (formatSupported.includes(mimetype.split('/')[1])) {
       const fileData = {
         input: originalname,
       };
       return fileData;
-    }
-    return false;
+    } else
+      throw new InvalidFileException(
+        'The file is an Invalid File',
+        'CS-LATAM03'
+      );
   }
-};
+}
+
+module.exports = Upload;

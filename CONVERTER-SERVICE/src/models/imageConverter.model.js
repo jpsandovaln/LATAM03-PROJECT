@@ -9,13 +9,23 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft.
 */
 
-const sharp =  require('sharp');
+const sharp = require('sharp');
+const ConverterException = require('../Exceptions/converter.exception');
 const Converter = require('./converter.model');
 
 // Builds to convert image type file and extends from the Converter abstract class
-class ImageConverter extends Converter{
+class ImageConverter extends Converter {
   
-  constructor(videoPath, savePath, size, format, rotate, isActiveGrayscale, isActiveMirrorEffect, isActiveNegative) {
+  constructor(
+    videoPath,
+    savePath,
+    size,
+    format,
+    rotate,
+    isActiveGrayscale,
+    isActiveMirrorEffect,
+    isActiveNegative
+  ) {
     super();
     this._videoPath = videoPath;
     this._savePath = savePath;
@@ -29,20 +39,24 @@ class ImageConverter extends Converter{
 
   // Allows to convert image taking into account format, resize, mirror effect, rotate, grayscale, negative, and extends from Converter abstract class
   async convert() {
-    return await sharp(this._videoPath)
-    .resize(this._size.width, this._size.height)
-    .toFormat(this._format)
-    .rotate(this._rotate, { background: { r: 0, g: 0, b: 0, alpha: 0 } })
-    .flop(this._isActiveMirrorEffect)
-    .grayscale(this._isActiveGrayscale)
-    .negate(this._isActiveNegative)
-    .toFile(this._savePath + '.' + this._format)
-    .then( data => {
-      return {response: true, data};
-    })
-    .catch( error => {
-      return {response: false, error};
-    });
+    try {
+      return sharp(this._videoPath)
+        .resize(this._size.width, this._size.height)
+        .toFormat(this._format)
+        .rotate(this._rotate, { background: { r: 0, g: 0, b: 0, alpha: 0 } })
+        .flop(this._isActiveMirrorEffect)
+        .grayscale(this._isActiveGrayscale)
+        .negate(this._isActiveNegative)
+        .toFile(this._savePath + '.' + this._format)
+        .then((data) => {
+          return { response: true, data };
+        });
+    } catch (error) {
+      throw new ConverterException(
+        'There was an error converting the image',
+        'LATAM03'
+      );
+    }
   }
 }
 

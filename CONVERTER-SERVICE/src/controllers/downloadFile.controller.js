@@ -1,5 +1,5 @@
 /*
-@download.controller.js Copyright (c) 2022 Jalasoft
+@downloadFile.controller.js Copyright (c) 2022 Jalasoft
 2643 Av Melchor Perez de Olguin Colquiri Sud, Cochabamba, Bolivia.
 Av. General Inofuentes esquina Calle 20,Edificio Union № 1376, La Paz, Bolivia
 All rights reserved
@@ -10,15 +10,17 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft.
 */
 
-const fs = require('fs');
-
-module.exports = class DownloadController {
-    
+class DownloaFileController {
+  
   //Receives the name of the file and returns the download link
-  static downloadVideo(req, res) {
-    const name = req.params.name;
-    const pathDownload =`${__dirname}/../downloadfiles/${name.split('.')[1]}`;
-    fs.mkdirSync(pathDownload, {recursive:true});
-    res.download(pathDownload + `/${req.params.name}`);
+  static downloadFile(req, res) {
+    const { name } = req.params;
+    console.log(name);
+    const pathDownload = `${__dirname}/../../files/downloadFiles/${
+      name.split('.')[0]
+    }`;
+    res.download(pathDownload + `/${name}`);
   }
-};
+}
+
+module.exports = DownloaFileController;

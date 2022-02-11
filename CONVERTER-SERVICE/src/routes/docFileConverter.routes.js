@@ -1,5 +1,5 @@
 /*
-@download.routes.js Copyright (c) 2022 Jalasoft
+@docFileConverter.routes.js Copyright (c) 2022 Jalasoft
 2643 Av Melchor Perez de Olguin Colquiri Sud, Cochabamba, Bolivia.
 Av. General Inofuentes esquina Calle 20,Edificio Union № 1376, La Paz, Bolivia
 All rights reserved
@@ -12,9 +12,9 @@ with Jalasoft.
 
 const { Router } = require('express');
 const router = Router();
-const DownloaFileController = require('../controllers/downloadFile.controller');
+const docFileConverterController = require('../controllers/docFileConverter.controller');
+const upload = require('../middlewares/multer.middleware');
 
-router.get('/:name', DownloaFileController.downloadFile);
-
+router.post('/', upload(), docFileConverterController.convert);
 
 module.exports = router;

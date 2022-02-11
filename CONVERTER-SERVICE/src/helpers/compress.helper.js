@@ -13,18 +13,23 @@ with Jalasoft.
 const admzip = require('adm-zip');
 const fs = require('fs');
 
-module.exports = class Compress {
-
+ class Compress {
+   
   //Receives a folder name and compresses it into a zip
-  static compressFile(input) {
+  static compressFile(input, zipName) {
     const zip = new admzip();
+    const folderName = `video-${input.split('.')[0]}/`;
+    zip.addLocalFolder(
+      `${__dirname}/../../files/uploads/${folderName}`
+    );
+    const outputPath = `${__dirname}/../../files/downloadFiles/${
+      zipName.split('.')[0]
+    }`;
+    fs.mkdirSync(outputPath, { recursive: true });
+    fs.writeFileSync(outputPath + `/${zipName}`, zip.toBuffer());
 
-    zip.addLocalFolder(`${__dirname}/../uploadsfolder/video-${input.split('.')[0]}/imagefps-${input.split('.')[0]}/`);
-    const fileName = `${Date.now()}-${input.split('.')[0]}.zip`;
-    const outputPath = `${__dirname}/../downloadfiles/zip`;
-    fs.mkdirSync(outputPath, {recursive:true});
-    fs.writeFileSync(outputPath + `/${fileName}`, zip.toBuffer());
-
-    return `http://localhost:9090/api/v1/download/${fileName}`;
+    return true;
   }
 };
+
+module.exports = Compress;

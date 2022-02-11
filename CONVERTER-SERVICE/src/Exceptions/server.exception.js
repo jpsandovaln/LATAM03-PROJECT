@@ -1,5 +1,5 @@
 /*
-@download.routes.js Copyright (c) 2022 Jalasoft
+@server.exception.js Copyright (c) 2022 Jalasoft
 2643 Av Melchor Perez de Olguin Colquiri Sud, Cochabamba, Bolivia.
 Av. General Inofuentes esquina Calle 20,Edificio Union № 1376, La Paz, Bolivia
 All rights reserved
@@ -10,11 +10,24 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft.
 */
 
-const { Router } = require('express');
-const router = Router();
-const DownloaFileController = require('../controllers/downloadFile.controller');
+// Exception in case of invalid files
+class ServerException extends Error {
+  
+  constructor(error, status, code) {
+    super(error);
+    this._status = status;
+    this._code = code;
+  }
 
-router.get('/:name', DownloaFileController.downloadFile);
+  //gets the status of the error
+  get status() {
+    return this._status;
+  }
 
+  //gets the code of the error
+  get code() {
+    return this._code;
+  }
+}
 
-module.exports = router;
+module.exports = ServerException;

@@ -1,5 +1,3 @@
 node_modules
-*.mp4
-*.jpg
-*.png
-*.zip
+files/downloadFiles/*
+files/uploads/*

@@ -11,11 +11,14 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft.
 */
 
-const ImageCompositer = require('../models/ImageCompositer.model');
-const path = require('path')
+const ImageCompositer = require('../models/imageCompositer.model');
+const fs = require('fs');
+const path = require('path');
+const Upload = require('../helpers/upload.helper');
+const { PORT, URL, URLBASE } = process.env;
 
-module.exports = class CompositerController {
-  
+class CompositerController {
+
   // Executes and verifies the response of the 3 methods involved in the project
   static async compositeImages(req, res) {
     const top = Number(req.body.top);
@@ -24,17 +27,38 @@ module.exports = class CompositerController {
     const backgroundImage = req.files.backgroundImage[0];
     const image = req.files.images[0];
     const images = [{ input: image.path, top, left }];
-    
-    const imageCompositer = new ImageCompositer(
-      backgroundImage.path,
-      images,
-      path.join(__dirname, `../downloadfiles/${format}/composite-${image.originalname.split('.')[0]}`),
-      format
-    );
-    const compositerResponse = await imageCompositer.composite();
-    if (!compositerResponse.response) {
-      return res.json({msg: 'Something went wrong when trying to combine the images'});
+    const compositeName = `${image.originalname.split('.')[0]}-${
+      backgroundImage.originalname.split('.')[0]
+    }`;
+    const downloadPath = path.join(__dirname, `../../files/downloadFiles/`);
+    const newFolder = `${downloadPath}composite-${compositeName}`;
+    const savePath = `${newFolder}/composite-${compositeName}`;
+
+    try {
+      Upload.uploadVerified(backgroundImage, 'IMAGE');
+      Upload.uploadVerified(image, 'IMAGE');
+
+      fs.mkdirSync(newFolder, { recursive: true });
+
+      const imageCompositer = new ImageCompositer(
+        backgroundImage.path,
+        images,
+        savePath,
+        format
+      );
+
+      await imageCompositer.composite();
+
+      res.json({
+        donwloadLink: `${URLBASE}${PORT}${URL}download/composite-${compositeName}.${format}`,
+      });
+    } catch (error) {
+      res.status(error.status).send({
+        error: error.message,
+        code: error.code,
+      });
     }
-    res.send(`http://localhost:9090/api/v1/download/composite-${image.originalname.split('.')[0]}.${format}`); // TODO: Indstead of this, add the link to download
   }
-};
+}
+
+module.exports = CompositerController;

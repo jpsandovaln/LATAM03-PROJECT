@@ -10,11 +10,12 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft.
 */
 
-const sharp = require("sharp");
+const sharp = require('sharp');
+const ConverterException = require('../Exceptions/converter.exception');
 
 // Builds an image that is constructed from two
 class ImageCompositer {
-
+  
   constructor(backgroundImage, images, savePath, format) {
     this._backgroundImage = backgroundImage;
     this._images = images;
@@ -24,17 +25,21 @@ class ImageCompositer {
 
   // Composites images over one image
   async composite() {
-    return await sharp(this._backgroundImage)
-    .composite(this._images)
-    .toFormat(this._format)
-    .toFile(this._savePath + '.' + this._format)
-    .then((image) => {
-      const { format, width, height, size} = image;
-      return {response: true, image: {format, width, height, size}};
-    })
-    .catch((error) => {
-      return {response: false, error: error.toString()};
-    });
+    try {
+      return sharp(this._backgroundImage)
+        .composite(this._images)
+        .toFormat(this._format)
+        .toFile(this._savePath + '.' + this._format)
+        .then((image) => {
+          const { format, width, height, size } = image;
+          return { response: true, image: { format, width, height, size } };
+        });
+    } catch (error) {
+      throw new ConverterException(
+        'There was an error converting the file',
+        'LATAM03'
+      );
+    }
   }
 }
 

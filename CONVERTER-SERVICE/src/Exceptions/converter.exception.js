@@ -1,5 +1,5 @@
 /*
-@convert.routes.js Copyright (c) 2022 Jalasoft
+@converter.exception.js Copyright (c) 2022 Jalasoft
 2643 Av Melchor Perez de Olguin Colquiri Sud, Cochabamba, Bolivia.
 Av. General Inofuentes esquina Calle 20,Edificio Union № 1376, La Paz, Bolivia
 All rights reserved
@@ -10,11 +10,14 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft.
 */
 
-const { Router } = require('express');
-const router = Router();
-const ConverterController = require('../controllers/converter.controller');
-const { uploadFileMiddleware } = require('../middlewares/multer.middleware');
+const ServerException = require("./server.exception");
 
-router.post('/', uploadFileMiddleware(), ConverterController.convertVideo);
+// Exception for converter methods
+class ConverterException extends ServerException {
 
-module.exports = router;
+  constructor(message, code){
+    super(message, '404' , code);
+  }
+}
+
+module.exports = ConverterException;
