@@ -10,16 +10,15 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft.
 */
 
-const libre = require('libreoffice-convert');
-const ConverterException = require('../Exceptions/converter.exception');
-const Upload = require('../helpers/upload.helper');
+const FileChecker = require('../helpers/fileChecker.helper');
+const ConverterChecker = require('../helpers/converterChecker.helper');
 const Converter = require('./converter.controller');
-const fs = require('fs').promises;
 
-class docFileConverterController extends Converter {
-
-  // Converts .docx files to .pdf
-  static async convert(req, res) {
+// Controls the model that will be used to convert .docx files to .pdf files
+class DocFileConverterController extends Converter {
+  
+  // Controls converterChecker and fileChecker's methods and return the response
+  static convert(req, res) {
     const { originalname } = req.file;
     const ext = '.pdf';
     const folderPath = `${__dirname}/../../files/uploads/application-${
@@ -28,21 +27,13 @@ class docFileConverterController extends Converter {
     const inputPath = `${folderPath}/${originalname}`;
     const outputPath = `${folderPath}/${originalname.split('.')[0]}${ext}`;
 
+    const params = { ext, inputPath, outputPath };
+
     try {
-      Upload.uploadVerified(req.file, 'DOC');
-
-      const file = await fs.readFile(inputPath);
-
-      libre.convert(file, ext, undefined, (err, done) => {
-        if (err) {
-          throw new ConverterException(
-            'There was an error converting the file',
-            'CS-LATAM03'
-          );
-        }
-        fs.writeFile(outputPath, done);
-      });
-      res.json({ message: 'Converted successfully' });
+      FileChecker.uploadChecker(req.file, 'DOC');
+      ConverterChecker.convertDocFile(params).then(() =>
+        res.json({ message: 'Converted successfully' })
+      );
     } catch (error) {
       res.status(error.status).send({
         error: error.message,
@@ -52,4 +43,4 @@ class docFileConverterController extends Converter {
   }
 }
 
-module.exports = docFileConverterController;
+module.exports = DocFileConverterController;

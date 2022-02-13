@@ -1,5 +1,5 @@
 /*
-@upload.helper.js Copyright (c) 2022 Jalasoft
+@fileChecker.helper.js Copyright (c) 2022 Jalasoft
 2643 Av Melchor Perez de Olguin Colquiri Sud, Cochabamba, Bolivia.
 Av. General Inofuentes esquina Calle 20,Edificio Union № 1376, La Paz, Bolivia
 All rights reserved
@@ -12,26 +12,25 @@ with Jalasoft.
 
 const InvalidFileException = require('../Exceptions/invalidFile.exception');
 
-class Upload {
+// Contains a method that check the extension of the files
+class FileChecker {
   
-  //Receives the video from the server and saves it in the "files" local file
-  static uploadVerified(params, type) {
-    let { originalname, mimetype } = params;
+  // Receives the video from the server and saves it in the "files" local file
+  static uploadChecker(params, type) {
+    let { mimetype } = params;
 
-    if (type === 'DOC') mimetype = 'file/docx';
+    if (mimetype.endsWith('document')) {
+      mimetype = 'file/docx';
+    }
     const formatSupported = process.env[`FORMATS_SUPPORTED_${type}`];
 
-    if (formatSupported.includes(mimetype.split('/')[1])) {
-      const fileData = {
-        input: originalname,
-      };
-      return fileData;
-    } else
+    if (!formatSupported.includes(mimetype.split('/')[1])) {
       throw new InvalidFileException(
         'The file is an Invalid File',
         'CS-LATAM03'
       );
+    }
   }
 }
 
-module.exports = Upload;
+module.exports = FileChecker;

@@ -12,13 +12,14 @@ with Jalasoft.
 */
 
 const ImageCompositer = require('../models/imageCompositer.model');
+const FileChecker = require('../helpers/fileChecker.helper');
 const fs = require('fs');
 const path = require('path');
-const Upload = require('../helpers/upload.helper');
 const { PORT, URL, URLBASE } = process.env;
 
+// Composes images
 class CompositerController {
-
+  
   // Executes and verifies the response of the 3 methods involved in the project
   static async compositeImages(req, res) {
     const top = Number(req.body.top);
@@ -35,8 +36,8 @@ class CompositerController {
     const savePath = `${newFolder}/composite-${compositeName}`;
 
     try {
-      Upload.uploadVerified(backgroundImage, 'IMAGE');
-      Upload.uploadVerified(image, 'IMAGE');
+      FileChecker.uploadChecker(backgroundImage, 'IMAGE');
+      FileChecker.uploadChecker(image, 'IMAGE');
 
       fs.mkdirSync(newFolder, { recursive: true });
 

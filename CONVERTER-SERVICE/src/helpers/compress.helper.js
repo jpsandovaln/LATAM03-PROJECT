@@ -18,7 +18,7 @@ const fs = require('fs');
   //Receives a folder name and compresses it into a zip
   static compressFile(input, zipName) {
     const zip = new admzip();
-    const folderName = `video-${input.split('.')[0]}/`;
+    const folderName = `images-fps-${input.split('.')[0]}/`;
     zip.addLocalFolder(
       `${__dirname}/../../files/uploads/${folderName}`
     );

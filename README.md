@@ -2,7 +2,7 @@
 
 ## Video Converter Class
 
-In order to be able to use this, make sure you have ffmpeg installed on your system
+In order to be able to use all the features, make sure you have **ffmpeg** and **Libre Office** installed on your system.
 
 ### Installing Ffmpeg
 1. Go to http://www.ffmpeg.org/download.html and download the zip file that best suits your computer's specifications 
@@ -14,6 +14,19 @@ In order to be able to use this, make sure you have ffmpeg installed on your sys
 4.3 Paste the path to the folder you created earlier where ffmpeg.exe is saved. For this example, that is, C:\Program Files\ffmpeg\bin\
 4.4 Click OK on all the windows we just opened.
 5. Ffmpeg is now installed. 
+
+### Installing Libre Office
+1. Download Libre Office 7.3.0 [here](https://es.libreoffice.org/descarga/libreoffice/).
+2. Install the program with the default values (Is **not** necessary to set Libre Office as the default application to open Microsoft Office files).
+3. Install the libreoffice-convert dependency in the project.
+3. In node_modules find the **libreoffice-convert/index.js** file and do this:
+
+```sh
+change:
+let command = `${results.soffice} -env:UserInstallation=file://${installDir.name} --headless --convert-to ${format}`;
+to:
+let command = `${results.soffice}  --headless --convert-to ${format}`;
+```
 
 ## Detection model class
 

@@ -9,61 +9,44 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft.
 */
 
-const fs = require('fs');
-const Upload = require('../helpers/upload.helper');
-const ImageConverter = require('../models/imageConverter.model');
+const FileChecker = require('../helpers/fileChecker.helper');
+const ConverterChecker = require('../helpers/converterChecker.helper');
 const Converter = require('./converter.controller');
 const { PORT, URL, URLBASE } = process.env;
 
+// Controls the model that will be used to convert images
 class ImageConverterController extends Converter {
-  
-  //Allows to receive the parameters needed by the ImageConverter.model and convert the image according to the user
-  static async convert(req, res) {
-    const {
-      Width,
-      Height,
-      format,
-      rotate,
-      isActiveGrayScale,
-      isActiveMirrorEffect,
-      isActiveNegative,
-    } = req.body;
 
+  // Controls converterChecker and fileChecker's methods and return the response
+  static convert(req, res) {
+    const { format } = req.body;
     const inputPath = req.file.path;
     const fileName = req.file.originalname.split('.')[0];
     const savePath = `${__dirname}/../../files/downloadFiles/transform-${fileName}`;
-
-    const size = {
-      width: Number(Width) || null,
-      height: Number(Height) || null,
-    };
+    const params = { ...req.body, savePath, inputPath, fileName };
 
     try {
-      Upload.uploadVerified(req.file, 'IMAGE');
-
-      fs.mkdirSync(savePath, { recursive: true });
-
-      const convertImage = new ImageConverter(
-        inputPath,
-        `${savePath}/transform-${fileName}`,
-        size,
-        format,
-        Number(rotate),
-        isActiveGrayScale == 'true',
-        isActiveMirrorEffect == 'true',
-        isActiveNegative == 'true'
-      );
-      await convertImage.convert().then((result) => {
-        res.json({
-          donwloadLink: `${URLBASE}${PORT}${URL}download/transform-${fileName}.${format}`,
-        });
-      });
+      FileChecker.uploadChecker(req.file, 'IMAGE');
     } catch (error) {
       res.status(error.status).send({
         error: error.message,
         code: error.code,
       });
+      return;
     }
+
+    ConverterChecker.convertImage(params)
+      .then(() => {
+        res.json({
+          donwloadLink: `${URLBASE}${PORT}${URL}download/transform-${fileName}.${format}`,
+        });
+      })
+      .catch((error) => {
+        res.status(error.status).send({
+          error: error.message,
+          code: error.code,
+        });
+      });
   }
 }
 
