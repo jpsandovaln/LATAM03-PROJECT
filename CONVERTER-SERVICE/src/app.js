@@ -25,6 +25,6 @@ app.use(process.env.URL + 'convert-video', require('./routes/videoConverter.rout
 app.use(process.env.URL + 'download', require('./routes/download.routes'));
 app.use(process.env.URL + 'convert-image', require('./routes/imageConverter.routes'));
 app.use(process.env.URL + 'composite', require('./routes/compositer.routes'));
-app.use(process.env.URL + 'convert-doc-pdf', require('./routes/docFileConverter.routes'));
+app.use(process.env.URL + 'convert-doc-pdf', require('./routes/documentFileConverter.routes'));
 
 app.listen(port, () => console.log(`Example app listening at ${port}`));

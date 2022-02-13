@@ -15,7 +15,6 @@ class DownloaFileController {
   //Receives the name of the file and returns the download link
   static downloadFile(req, res) {
     const { name } = req.params;
-    console.log(name);
     const pathDownload = `${__dirname}/../../files/downloadFiles/${
       name.split('.')[0]
     }`;

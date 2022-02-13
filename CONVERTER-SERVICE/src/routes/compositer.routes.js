@@ -13,9 +13,9 @@ with Jalasoft.
 
 const { Router } = require('express');
 const router = Router();
-const CompositerController = require('../controllers/compositer.controller');
+const CompositerAdapter = require('../controllers/compositerAdapter.controller');
 const uploadCompositeMiddllware = require('../middlewares/compositeMulter.middleware');
 
-router.post('/', uploadCompositeMiddllware(), CompositerController.compositeImages);
+router.post('/', uploadCompositeMiddllware(), CompositerAdapter.convert);
 
 module.exports = router;
