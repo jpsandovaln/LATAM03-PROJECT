@@ -30,7 +30,7 @@ class FilterResults {
           foundObjectsArray.push({
             Second: predictions.fileName.split('.')[0],
             object: prediction.class || prediction.className ,
-            Score: prediction.score  || prediction.probability ,
+            Score: prediction.score  || prediction.probability 
           });
           return false;
         } else {

@@ -32,7 +32,7 @@ class ObjectRecognitionController {
     } catch (error) {
       res.status(error.status).send({
         Error: error.message,
-        Code: error.code,
+        Code: error.code
       });
     }
   }
