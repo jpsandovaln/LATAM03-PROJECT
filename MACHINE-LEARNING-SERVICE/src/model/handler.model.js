@@ -19,13 +19,14 @@ const MobileNet = require('./models/mobilenet.model');
 class HandlerModel {
   
   // Chooses a model
-  static chooseModel(model, object, percentage) {
+  static chooseModel(folderFile, model, object, percentage) {
+    const pathFile = path.join(__dirname, `../../files/uploads/images/${folderFile}/`);
     if (model == 'coco') {
-      return new CocoSsd(path.join(__dirname, '../uploads/images/'), percentage, object)
+      return new CocoSsd(pathFile, percentage, object)
     } else if (model == 'yolo') {
-      return new Yolo(path.join(__dirname, '../uploads/images/'), percentage, object)
+      return new Yolo(pathFile, percentage, object)
     } else if (model == 'mobilenet') {
-      return new MobileNet(path.join(__dirname, '../uploads/images/'), percentage, object)
+      return new MobileNet(pathFile, percentage, object)
     } else {
       throw new MachineLearningException(`${model} is not a recognized model, you can choose between coco, yolo or mobilenet`,
       'LATAM03')

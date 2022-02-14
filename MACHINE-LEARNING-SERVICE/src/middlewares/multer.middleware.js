@@ -11,12 +11,17 @@ with Jalasoft
 */
 
 const multer = require('multer');
+const fs = require('fs');
 
 // Validates the files before uploading in the project
 function uploadImagesMiddleware() {
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, './uploads/images');
+      const pathUpload = `./../files/uploads/images/${
+        file.mimetype.split('/')[0]
+      }-${file.originalname.split('.')[0]}/`;
+      fs.mkdirSync(pathUpload, { recursive: true });
+      cb(null, pathUpload);
     },
     filename: function (req, file, cb) {
       cb(null, file.originalname);

@@ -20,15 +20,8 @@ class ObjectRecognitionController {
   static async recognizeObject(req, res) {
 
     const { zipName, percentage, object, model } = req.body;
-    
     try {
-      const decompressedFilePath = Decompress.decompressFile(
-        `${__dirname}/../uploads/zips/${zipName}`
-      );
-      if (!decompressedFilePath) {
-        return res.send('The file has not been unziped');
-      }
-      res.send(await ModelFactory.giveResult(model, object, percentage));
+      res.send(await ModelFactory.giveResult(req, zipName, model, object, percentage));
     } catch (error) {
       res.status(error.status).send({
         Error: error.message,
