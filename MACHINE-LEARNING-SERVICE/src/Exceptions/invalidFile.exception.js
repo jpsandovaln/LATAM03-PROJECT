@@ -14,7 +14,7 @@ const ServerException = require("./server.exception");
 // Exception in case of invalid files 
 class InvalidFileException extends ServerException {
 
-  constructor(message, code){
+  constructor(message, code) {
     const status = '400';
     super(message, status, code);
   }

@@ -11,21 +11,21 @@ with Jalasoft.
 
 //Exception handling for inheritance in machine learning exceptions and invalid files
 class ServerException extends Error {
-
-  constructor(message, status, code){
+  
+  constructor(message, status, code) {
     super(message);
     this._status = status;
     this._code = code;
   }
 
   // gets the status of the error
-  get status(){
+  get status() {
     return this._status;
   }
 
   //gets the code in specific error
-  get code(){
-      return this._code;
+  get code() {
+    return this._code;
   }
 }
 

@@ -15,9 +15,9 @@ const tf = require('@tensorflow/tfjs');
 const tfnode = require('@tensorflow/tfjs-node');
 const fs = require('fs').promises;
 const yolov5 = require('yolov5');
-const FilerResults = require('../helpers/filterResults.helper');
-const ObjectDetection = require('./objectDetection.model');
-const MachineLearningException = require('../Exceptions/marchineLearning.exception');
+const FilerResults = require('../../helpers/filterResults.helper');
+const ObjectDetection = require('../objectDetection.model');
+const MachineLearningException = require('../../Exceptions/marchineLearning.exception');
 
 // Represents the object recognition system
 class Yolo extends ObjectDetection {

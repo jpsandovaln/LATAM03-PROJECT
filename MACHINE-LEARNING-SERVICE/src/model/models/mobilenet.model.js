@@ -14,8 +14,8 @@ const tf = require('@tensorflow/tfjs');
 const mobilenet = require('@tensorflow-models/mobilenet');
 const tfnode = require('@tensorflow/tfjs-node');
 const fs = require('fs').promises;
-const FilterResults = require('../helpers/filterResults.helper');
-const ObjectDetection = require('./objectDetection.model');
+const FilterResults = require('../../helpers/filterResults.helper');
+const ObjectDetection = require('../objectDetection.model');
 
 // Represents the object recognition system
 class MobileNet extends ObjectDetection {

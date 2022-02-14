@@ -11,10 +11,10 @@ with Jalasoft.
 
 const cocoSsd = require('@tensorflow-models/coco-ssd');
 const tf = require('@tensorflow/tfjs-node');
-const MachineLearningException = require('../Exceptions/marchineLearning.exception');
+const MachineLearningException = require('../../Exceptions/marchineLearning.exception');
 const fs = require('fs').promises;
-const FilterResults = require('../helpers/filterResults.helper');
-const ObjectDetection = require('./objectDetection.model');
+const FilterResults = require('../../helpers/filterResults.helper');
+const ObjectDetection = require('../objectDetection.model');
 
 // Represents the object recognition system
 class CocoSsd extends ObjectDetection {

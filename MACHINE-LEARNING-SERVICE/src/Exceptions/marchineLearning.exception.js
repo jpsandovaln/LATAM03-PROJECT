@@ -14,7 +14,7 @@ const ServerException = require("./server.exception");
 // Error exception for machine learning models
 class MachineLearningException extends ServerException {
   
-  constructor(message, code){
+  constructor(message, code) {
     const status = '404';
     super(message, status, code);
   }
