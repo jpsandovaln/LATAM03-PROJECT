@@ -17,10 +17,11 @@ const fs = require('fs');
 function uploadImagesMiddleware() {
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      const pathUpload = `./../files/uploads/images/${
+      const pathUpload = `${__dirname}/../../files/uploads/images/${
         file.mimetype.split('/')[0]
       }-${file.originalname.split('.')[0]}/`;
       fs.mkdirSync(pathUpload, { recursive: true });
+      console.log('Multer: ' + pathUpload);
       cb(null, pathUpload);
     },
     filename: function (req, file, cb) {

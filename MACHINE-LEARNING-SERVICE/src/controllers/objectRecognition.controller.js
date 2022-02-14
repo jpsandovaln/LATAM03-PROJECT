@@ -10,8 +10,8 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft
 */
 
-const Decompress = require('../helpers/decompress.helper');
-const ModelFactory = require('../model/model.factory');
+const ModelFacade = require('../model/model.facade');
+const HandlerFile = require('../helpers/handler.file');
 
 // Controls the model that will be used to detect the object
 class ObjectRecognitionController {
@@ -21,7 +21,8 @@ class ObjectRecognitionController {
 
     const { zipName, percentage, object, model } = req.body;
     try {
-      res.send(await ModelFactory.giveResult(req, zipName, model, object, percentage));
+      const folderFile = HandlerFile.fileFolder(req, zipName);
+      res.send(await ModelFacade.giveResult(folderFile, model, object, percentage));
     } catch (error) {
       res.status(error.status).send({
         Error: error.message,

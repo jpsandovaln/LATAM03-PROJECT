@@ -24,7 +24,10 @@ class Decompress {
       const filePath = `${__dirname}/../../files/uploads/images/decompress/`;
       fs.mkdirSync(filePath, { recursive: true });
       zip.extractAllTo(filePath, true);
-      return fs.existsSync(filePath);
+      return {
+        decompressed: fs.existsSync(filePath),
+        path: filePath
+      };
     } catch(error) {
       throw new InvalidFileException('The file is an Invalid File','InvalidFile');
     }
