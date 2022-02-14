@@ -10,12 +10,13 @@ with Jalasoft.
 */
 
 const ServerException = require("./server.exception");
+const NOT_FOUND_ERROR_CODE = process.env.NOT_FOUND_ERROR_CODE;
 
 // Error exception for machine learning models
 class MachineLearningException extends ServerException {
   
   constructor(message, code){
-    const status = '404';
+    const status = NOT_FOUND_ERROR_CODE;
     super(message, status, code);
   }
 }

@@ -28,31 +28,28 @@ class CocoSsd extends ObjectDetection {
 
   // Allows to load the model and decode the image in order to make a detection of the desired object.
   async predict() {
-    try {
-      const model = await cocoSsd.load();
-      const imagesArray = await fs.readdir(this.pathFile);
-      const channels = 3;
-      const imagesToPredictArray = await Promise.all(
-        imagesArray.map(async (fileName) => {
-          const img = await fs.readFile(`${this.pathFile}${fileName}`);
-          const imgTensor = tf.node.decodeImage(new Uint8Array(img), channels);
-          const predict = await model.detect(imgTensor);
-          const data = { predict, fileName };
-          return data;
-        })
-      ).catch(error =>{
-        throw new MachineLearningException('Error building model COCO.', 'ML-01');
-      });
+    
+    const model = await cocoSsd.load();
+    const imagesArray = await fs.readdir(this.pathFile);
+    const channels = 3;
+    const imagesToPredictArray = await Promise.all(
+      imagesArray.map(async (fileName) => {
+        const img = await fs.readFile(`${this.pathFile}${fileName}`);
+        const imgTensor = tf.node.decodeImage(new Uint8Array(img), channels);
+        const predict = await model.detect(imgTensor);
+        const data = { predict, fileName };
+        return data;
+      })
+    ).catch(error =>{
+      throw new MachineLearningException('Error building model COCO.', 'ML-01');
+    });
 
-      const foundObjectsArray = FilterResults.filterFunction(
-        imagesToPredictArray,
-        this.objectRequired,
-        this.percentage
-      );
-      return foundObjectsArray;
-    } catch (error) {
-      throw error;
-    }
+    const foundObjectsArray = FilterResults.filterFunction(
+      imagesToPredictArray,
+      this.objectRequired,
+      this.percentage
+    );
+    return foundObjectsArray;
   }
 }
 

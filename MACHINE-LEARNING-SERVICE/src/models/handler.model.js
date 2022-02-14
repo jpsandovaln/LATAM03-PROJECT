@@ -23,7 +23,7 @@ class HandlerModel {
     
     if (model == 'coco') {
       const cocoSsd = new CocoSsd(
-        path.join(__dirname, '../uploads/images/'),
+        path.join(__dirname, '../../files/uploads/images/'),
         percentage,
         object
       );
@@ -31,7 +31,7 @@ class HandlerModel {
       result = await cocoSsd.predict();
     } else if (model == 'yolo') {
       const yolo = new Yolo(
-        path.join(__dirname, '../uploads/images/'),
+        path.join(__dirname, '../../files/uploads/images/'),
         percentage,
         object
       );
