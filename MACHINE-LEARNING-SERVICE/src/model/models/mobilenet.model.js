@@ -1,5 +1,5 @@
 /*
-@yolo.model.js Copyright (c) 2022 Jalasoft
+@mobilenet.model.js Copyright (c) 2022 Jalasoft
 2643 Av Melchor Perez de Olguin Colquiri Sud, Cochabamba, Bolivia.
 Av. General Inofuentes esquina Calle 20,Edificio Union № 1376, La Paz, Bolivia
 All rights reserved
@@ -10,18 +10,15 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft
 */
 
-require('regenerator-runtime');
 const tf = require('@tensorflow/tfjs');
+const mobilenet = require('@tensorflow-models/mobilenet');
 const tfnode = require('@tensorflow/tfjs-node');
 const fs = require('fs').promises;
-const yolov5 = require('yolov5');
-const FilerResults = require('../helpers/filterResults.helper');
-const ObjectDetection = require('./objectDetection.model');
-const MachineLearningException = require('../Exceptions/marchineLearning.exception');
+const FilterResults = require('../../helpers/filterResults.helper');
+const ObjectDetection = require('../objectDetection.model');
 
 // Represents the object recognition system
-class Yolo extends ObjectDetection {
-
+class MobileNet extends ObjectDetection {
   constructor(pathFile, percentage, objectRequired) {
     super();
     this.pathFile = pathFile;
@@ -31,32 +28,25 @@ class Yolo extends ObjectDetection {
 
   // Allows to load the model and decode the image in order to make a detection of the desired object.
   async predict() {
-    
     try {
-      const channels = 3;
+      const topkNumber = 1;
       const imagesArray = await fs.readdir(this.pathFile);
-      const yolo = yolov5;
-      await yolo.load();
-
+      const mobilenetModel = await mobilenet.load();
       const imagesToPredictArray = await Promise.all(
         imagesArray.map(async (fileName) => {
-          const img = await fs.readFile(`${this.pathFile}${fileName}`);
-          const imgDecoded = tfnode.node.decodeImage(img, channels);
-          const imgResized = tf.image.resizeBilinear(imgDecoded, [640, 640]);
-          const image = tf
-            .cast(imgResized, 'float32')
-            .div(tf.scalar(255))
-            .expandDims(0);
-          const result = await yolo.predict(image);
-          const predict = yolo.getDetections(result);
+          const imageBuffer = await fs.readFile(`${this.pathFile}${fileName}`);
+          const tfimage = tfnode.node.decodeImage(imageBuffer);
+          const predict = await mobilenetModel.classify(tfimage, topkNumber);
           const data = { predict, fileName };
           return data;
         })
-      ).catch(error =>{
-        throw new MachineLearningException('Error building model YOLO.', 'ML-02');
+      ).catch((error) => {
+        throw new MachineLearningException(
+          'Error building model MOBILENET.',
+          'ML-01'
+        );
       });
-
-      const foundObjectsArray = FilerResults.filterFunction(
+      const foundObjectsArray = FilterResults.filterFunction(
         imagesToPredictArray,
         this.objectRequired,
         this.percentage
@@ -64,8 +54,8 @@ class Yolo extends ObjectDetection {
       return foundObjectsArray;
     } catch (error) {
       throw error;
-    }    
+    }
   }
 }
 
-module.exports = Yolo;
+module.exports = MobileNet;

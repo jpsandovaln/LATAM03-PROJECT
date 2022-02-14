@@ -21,16 +21,16 @@ class FilterResults {
     if(isNaN(percentage)){
       throw new MachineLearningException('Machine learning parameters','ML-percentage');
     }
+    
     imagesToPredictArray.forEach((predictions) => {
       predictions.predict.every((prediction) => {
-        if (
-          objectRequired === prediction.class &&
-          prediction.score >= percentage
-        ) {
+          if ((String(prediction.className).includes(objectRequired) || String(prediction.class).includes(objectRequired) ) &&
+          (prediction.score >= percentage || prediction.probability >= percentage)
+          ) {
           foundObjectsArray.push({
-            fileName: predictions.fileName,
-            object: prediction.class,
-            Score: prediction.score,
+            Second: predictions.fileName.split('.')[0],
+            object: prediction.class || prediction.className ,
+            Score: prediction.score  || prediction.probability 
           });
           return false;
         } else {

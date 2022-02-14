@@ -19,12 +19,12 @@ class Decompress {
 
   //Receives a zipPath and extracts all the files to an specific folder. Returns true when the process finished
   static decompressFile(zipPath) {
-    try{
+    try {
       const zip = new admZip(zipPath);
       const filePath = `${__dirname}/../uploads/images/`;
       zip.extractAllTo(filePath, true);
     return fs.existsSync(filePath);
-    }catch(error){
+    } catch(error) {
       throw new InvalidFileException('The file is an Invalid File','InvalidFile');
     }
   }
