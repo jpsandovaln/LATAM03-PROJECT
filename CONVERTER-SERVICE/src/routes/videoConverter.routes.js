@@ -13,8 +13,12 @@ with Jalasoft.
 const { Router } = require('express');
 const router = Router();
 const VideoConverterController = require('../controllers/videoConverter.controller');
-const upload = require('../middlewares/multer.middleware');
+const FileValidator = require('../middlewares/fileValidator.middleware');
+const UploadProcessor = require('../middlewares/uploadProcessor.middleware');
 
-router.post('/', upload(), VideoConverterController.convert);
+router.post('/', [
+  UploadProcessor.processUploadFile(),
+  FileValidator.validateUploadOneFile
+], VideoConverterController.convert);
 
 module.exports = router;
