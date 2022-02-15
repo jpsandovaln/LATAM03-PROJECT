@@ -12,8 +12,10 @@ with Jalasoft.
 const Decompress = require('./decompress.helper');
 const path = require('path');
 
+// Allows to decide between zip files and images and create the path file
 class HandlerFile {
   
+  // Returns the file folder when decide if is an image or a zip file
   static fileFolder (req, zipName) {
 
     let folderFile = '';
