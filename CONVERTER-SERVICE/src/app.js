@@ -13,9 +13,16 @@ with Jalasoft.
 
 const express = require('express');
 const dotenv = require('dotenv');
-
+const Database = require('./database/database.db');
+require('./models/file.model');
 const app = express();
 dotenv.config();
+
+const database = new Database(process.env.MONGO_URI, process.env.MONGO_DB);
+
+database.connectDatabase()
+  .then(() => console.info('Database is connected'))
+  .catch(error => console.log('Error', error));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
