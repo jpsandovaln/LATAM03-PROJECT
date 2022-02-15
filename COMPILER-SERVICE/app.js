@@ -28,6 +28,8 @@ app.post('/api/v1/compiler', upload.single('file'), async(req, res) => {
       binaryPath = '"' + process.env.JAVA_BINARY + '"';
     } else if (body.lang === 'python') {
       binaryPath = '"' + process.env.PYTHON_BINARY + '"';
+    } else if (body.lang === 'cshard') {
+      binaryPath = '';
     }
     res.send(await Compiler.execute(file.path, binaryPath, body.lang)); 
   } catch(error) {
