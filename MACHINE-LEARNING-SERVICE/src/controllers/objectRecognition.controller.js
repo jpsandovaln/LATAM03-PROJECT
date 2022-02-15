@@ -10,8 +10,8 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft
 */
 
-const Decompress = require('../helpers/decompress.helper');
-const ModelFactory = require('../model/model.factory');
+const ModelFacade = require('../model/model.facade');
+const HandlerFile = require('../helpers/handler.file');
 
 // Controls the model that will be used to detect the object
 class ObjectRecognitionController {
@@ -20,15 +20,9 @@ class ObjectRecognitionController {
   static async recognizeObject(req, res) {
 
     const { zipName, percentage, object, model } = req.body;
-    
     try {
-      const decompressedFilePath = Decompress.decompressFile(
-        `${__dirname}/../uploads/zips/${zipName}`
-      );
-      if (!decompressedFilePath) {
-        return res.send('The file has not been unziped');
-      }
-      res.send(await ModelFactory.giveResult(model, object, percentage));
+      const folderFile = HandlerFile.fileFolder(req, zipName);
+      res.send(await ModelFacade.giveResult(folderFile, model, object, percentage));
     } catch (error) {
       res.status(error.status).send({
         Error: error.message,

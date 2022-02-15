@@ -1,5 +1,5 @@
 /*
-@model.factory.js Copyright (c) 2022 Jalasoft
+@model.facade.js Copyright (c) 2022 Jalasoft
 CI 26 Sur #48-41, Ayurá Center, Edificio Unión № 1376, Medellín, Colombia
 All rights reserved
 This software is the confidential and proprietary information of
@@ -9,14 +9,15 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft.
 */
 
-const HandlerModel = require('./handler.model');
+const FactoryModel = require('./factory.model');
 
 // Calls the predict method with the corresponding instance
-class ModelFactory {
+class ModelFacade {
 
   // returns the result of the prediction
-  static async giveResult(model, object, percentage) {
-    const modelInstance = HandlerModel.chooseModel(model, object, percentage);
+  static async giveResult(folderFile, model, object, percentage) {
+    
+    const modelInstance = FactoryModel.chooseModel(folderFile, model, object, percentage);
     const result = await modelInstance.predict();
     if (result.length === 0) {
       return { message: `There is not the object ${object} in the image` };
@@ -26,4 +27,4 @@ class ModelFactory {
   }
 }
 
-module.exports = ModelFactory;
+module.exports = ModelFacade;
