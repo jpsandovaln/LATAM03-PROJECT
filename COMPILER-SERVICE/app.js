@@ -24,7 +24,7 @@ app.post('/api/v1/compiler', upload.single('file'), async(req, res) => {
   const { file, body } = req;
   let binaryPath = '';
   try {
-    if (body.lang === 'java') {
+    if (body.lang === 'java' || body.lang === 'java_proxy') {
       binaryPath = '"' + process.env.JAVA_BINARY + '"';
     } else if (body.lang === 'python') {
       binaryPath = '"' + process.env.PYTHON_BINARY + '"';
