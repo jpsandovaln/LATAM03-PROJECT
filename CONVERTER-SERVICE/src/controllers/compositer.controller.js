@@ -22,7 +22,6 @@ class CompositerController {
   
   // Executes and verifies the response of the 3 methods involved in the project
   static async compositeImages(req, res) {
-    console.log('req.files', req.files)
     const top = Number(req.body.top);
     const left = Number(req.body.left);
     const format = req.body.format;
