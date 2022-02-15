@@ -1,6 +1,5 @@
 /*
 @fileValidator.middleware.js Copyright (c) 2022 Jalasoft
-CI 26 Sur #48-41, Ayurá Center, Edificio Unión № 1376, Medellín, Colombia
 2643 Av Melchor Perez de Olguin Colquiri Sud, Cochabamba, Bolivia.
 Av. General Inofuentes esquina Calle 20,Edificio Union № 1376, La Paz, Bolivia
 All rights reserved
@@ -8,7 +7,7 @@ This software is the confidential and proprietary information of
 Jalasoft Confidential Information You shall not
 disclose such Confidential Information and shall use it only in
 accordance with the terms of the license agreement you entered into
-with Jalasoft.
+with Jalasoft
 */
 
 const fs = require('fs');
@@ -21,7 +20,8 @@ class FileValidator {
 
   // Validates one uploaded file if it exists in database
   static async validateUploadOneFile(req, res, next) {
-    const { buffer: fileBuffer, format } = req.file;
+    const { buffer: fileBuffer, mimetype } = req.file;
+    const format = mimetype.split('/')[1];
     const fileHash = HashGenerator.generateHashFile(fileBuffer);
     try {
       const fileFound = await File.findOne({ hash: fileHash });
@@ -43,6 +43,7 @@ class FileValidator {
     
           newFile.save()
             .then(() => {
+              req.file.path = uploadSave;
               return next();
             })
             .catch(() => {
