@@ -1,5 +1,5 @@
 /*
-@docFileConverter.controller.js Copyright (c) 2022 Jalasoft
+@documentFileConverter.controller.js Copyright (c) 2022 Jalasoft
 2643 Av Melchor Perez de Olguin Colquiri Sud, Cochabamba, Bolivia.
 Av. General Inofuentes esquina Calle 20,Edificio Union № 1376, La Paz, Bolivia
 All rights reserved
@@ -11,7 +11,7 @@ with Jalasoft.
 */
 
 const FileChecker = require('../helpers/fileChecker.helper');
-const ConverterChecker = require('../helpers/converterChecker.helper');
+const ConverterChecker = require('../models/converterChecker.facade');
 const Converter = require('./converter.controller');
 
 // Controls the model that will be used to convert .docx files to .pdf files
