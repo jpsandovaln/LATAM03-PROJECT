@@ -31,7 +31,6 @@ class Database {
         throw new Error( 'There was an connection error.' );
     }
   }
-
 }
 
 module.exports = Database;
