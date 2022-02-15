@@ -21,7 +21,6 @@ function uploadImagesMiddleware() {
         file.mimetype.split('/')[0]
       }-${file.originalname.split('.')[0]}/`;
       fs.mkdirSync(pathUpload, { recursive: true });
-      console.log('Multer: ' + pathUpload);
       cb(null, pathUpload);
     },
     filename: function (req, file, cb) {

@@ -1,5 +1,5 @@
 /node_modules
-*jpg
-*png
 files/downloadFiles/*
+files/uploads/images/*
+files/uploads/zips/*
 files/uploads/*
