@@ -20,9 +20,9 @@ dotenv.config();
 
 const database = new Database(process.env.MONGO_URI, process.env.MONGO_DB);
 
-database.connectDatabase()
-  .then(() => console.info('Database is connected'))
-  .catch(error => console.log('Error', error));
+(async function () {
+    await database.connectDatabase();
+})();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

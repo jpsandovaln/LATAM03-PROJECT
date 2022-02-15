@@ -28,7 +28,6 @@ class Database {
           useUnifiedTopology: true,
       });
     } catch (error) {
-        console.error();( 'Error: ', error );
         throw new Error( 'There was an connection error.' );
     }
   }

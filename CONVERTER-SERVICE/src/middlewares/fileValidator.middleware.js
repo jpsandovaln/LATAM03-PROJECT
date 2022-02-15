@@ -51,7 +51,7 @@ class FileValidator {
         }
       });
     } catch (error) {
-      req.json({ error: 'Something went wrong when uploading file'});
+      res.json({ error: 'Something went wrong when uploading file'});
     }
   }
 }
