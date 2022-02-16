@@ -14,8 +14,13 @@ with Jalasoft.
 const { Router } = require('express');
 const router = Router();
 const CompositerAdapter = require('../controllers/compositerAdapter.controller');
-const uploadCompositeMiddllware = require('../middlewares/compositeMulter.middleware');
+const FileValidator = require('../middlewares/fileValidator.middleware');
+const UploadProcessor = require('../middlewares/uploadProcessor.middleware');
 
-router.post('/', uploadCompositeMiddllware(), CompositerAdapter.convert);
+router.post('/', [
+  UploadProcessor.processUploadTwoFiles(),
+  FileValidator.validateUploadTwoFiles
+], CompositerAdapter.convert);
+
 
 module.exports = router;
