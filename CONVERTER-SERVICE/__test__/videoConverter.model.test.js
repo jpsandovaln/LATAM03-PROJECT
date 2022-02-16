@@ -1,29 +1,42 @@
 const ConverterException = require('../src/Exceptions/converter.exception');
 const VideoConverter = require('../src/models/videoConverter.model');
-
-const video = require('../__mocks__/videoConverter');
-jest.mock('fluent-ffmpeg');
-
-const FfmpegCommandMock = require('fluent-ffmpeg');
-const { mockedFfmpeg } = FfmpegCommandMock;
-
-// FfmpegCommandMock.mockReturnThis();
+const fs = require('fs');
 
 describe('Video Converter tests', () => {
-  test('Converter success', async () => {
-    const videoConverter = new VideoConverter('fileName', 'route', 1, '100%');
-    const result = videoConverter.convert();
-    mockedFfmpeg.emit('end');
-    const { response } = await result;
+  const saveImagesPath = `${__dirname}/files/videoFilesFolder`;
 
+  beforeEach(() => {
+    fs.mkdirSync(saveImagesPath, { recursive: true });
+  });
+
+  test('Video success', async () => {
+    const videoConverter = new VideoConverter(
+      __dirname + '/files/animals.mp4',
+      `${saveImagesPath}/%3d.jpg`,
+      1,
+      '100%'
+    );
+    const result = await videoConverter.convert();
+    const { response } = result;
     expect(response).toBe(true);
   });
-  test('Converter fail', async () => {
-    const videoConverter = new VideoConverter('fileName', 'route', 1, '100%');
-    const result = videoConverter.convert();
-    mockedFfmpeg.emit('error');
-    await result.catch((error) => {
-      expect(error).toBeInstanceOf(ConverterException);
-    });
+
+  // test('Invalid video input', async () => {
+  //   const videoConverter = new VideoConverter(
+  //     __dirname + '/files/DocTest.docx',
+  //     __dirname + '/files/%3d.jpg',
+  //     1,
+  //     '100%'
+  //   );
+  //   const result = await videoConverter.convert();
+  //   const { response } = result;
+  //   expect(response).toBe(false)
+  //   // videoConverter.convert().catch((error) => {
+  //   //   expect(error).toBeInstanceOf(asds);
+  //   // });
+  // });
+
+  afterEach(() => {
+    fs.rm(saveImagesPath, { recursive: true, force: true });
   });
 });
