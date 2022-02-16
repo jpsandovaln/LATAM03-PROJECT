@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  converter:
+    container_name: machine-learning-service
+    build: .
+    restart: always
+    ports:
+      - 4000:3000
+    environment:
+      PORT: 3000
+      SERVER_URL: http://localhost:3000/api/v1
