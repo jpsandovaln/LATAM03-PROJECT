@@ -1,5 +1,5 @@
 /*
-@converterChecker.helper.js Copyright (c) 2022 Jalasoft
+@converterChecker.facade.js Copyright (c) 2022 Jalasoft
 2643 Av Melchor Perez de Olguin Colquiri Sud, Cochabamba, Bolivia.
 Av. General Inofuentes esquina Calle 20,Edificio Union № 1376, La Paz, Bolivia
 All rights reserved
@@ -11,11 +11,9 @@ with Jalasoft.
 */
 
 const fs = require('fs');
-const fsPromise = require('fs').promises;
-const ImageConverter = require('../models/imageConverter.model');
-const VideoConverter = require('../models/videoConverter.model');
-const ConverterException = require('../Exceptions/converter.exception');
-const libre = require('libreoffice-convert');
+const ImageConverter = require('./imageConverter.model');
+const VideoConverter = require('./videoConverter.model');
+const DocumentFileConverter = require('./documentFileConverter.model');
 
 // Contains methods that checks converter models
 class ConverterChecker {
@@ -75,17 +73,14 @@ class ConverterChecker {
   //Verifies the convert document process
   static async convertDocFile(params) {
     const { ext, inputPath, outputPath } = params;
-    const file = await fsPromise.readFile(inputPath);
 
-    libre.convert(file, ext, undefined, async (err, done) => {
-      if (err) {
-        throw new ConverterException(
-          'There was an error converting the file',
-          'CS-LATAM03'
-        );
-      }
-      await fsPromise.writeFile(outputPath, done);
-    });
+    const convertDocumentFile = new DocumentFileConverter(
+      ext,
+      inputPath,
+      outputPath
+    );
+
+    await convertDocumentFile.convert();
   }
 }
 
