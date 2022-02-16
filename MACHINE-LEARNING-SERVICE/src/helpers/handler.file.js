@@ -23,12 +23,10 @@ class HandlerFile {
       const imageName = req.files[0].originalname.split('.')[0];
       folderFile = path.join(__dirname, `../../files/uploads/images/image-${imageName}/`);
     } else {
-      console.log('Aqui si entra');
         const decompressedFilePath = Decompress.decompressFile(
         `${__dirname}/../../files/uploads/zips/${zipName}`
       );
       folderFile = decompressedFilePath.path;
-      console.log(folderFile);
       if (!decompressedFilePath.decompressed) {
         return 'The file has not been unziped';
       }

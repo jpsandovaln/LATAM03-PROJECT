@@ -10,7 +10,7 @@ with Jalasoft.
 */
 
 const FileChecker = require('../helpers/fileChecker.helper');
-const ConverterChecker = require('../helpers/converterChecker.helper');
+const ConverterChecker = require('../models/converterChecker.facade');
 const Converter = require('./converter.controller');
 const { PORT, URL, URLBASE } = process.env;
 

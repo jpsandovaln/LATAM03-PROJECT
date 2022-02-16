@@ -11,6 +11,9 @@ class JavaCommand extends Command {
 
     build() {
         try {
+            if(this.filePath == '' || this.javaPath == '') {
+                throw new CommandException("Error");
+            }
             const JAVA_COMPILER = this.javaPath + 'javac ';
             const JAVA_EXECUTE = this.javaPath + 'java ';
             const JAVA_CP_PARAMETER = '-cp ';
