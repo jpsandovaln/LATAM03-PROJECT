@@ -51,7 +51,7 @@ class ImageConverter extends Converter {
         .then((data) => {
           return { response: true, data };
         });
-    } catch (error) {
+    } catch {
       throw new ConverterException(
         'There was an error converting the image',
         'LATAM03'
