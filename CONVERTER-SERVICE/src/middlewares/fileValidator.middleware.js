@@ -60,7 +60,7 @@ class FileValidator {
     const backgroundFormat = backgroundMimetype.split('/')[1];
 
     try {
-      await Promise.all([
+      Promise.all([
         File.find({ hash: backgroundHash }), 
         File.find({ hash: imageHash })
       ]).then(image => {
