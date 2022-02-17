@@ -48,7 +48,7 @@ class Yolo extends ObjectDetection {
             .div(tf.scalar(255))
             .expandDims(0);
           const result = await yolo.predict(image);
-          const predict = yolo.getDetections(result);
+          const predict = await yolo.getDetections(result);
           const data = { predict, fileName };
           return data;
         })
