@@ -16,6 +16,8 @@ const tfnode = require('@tensorflow/tfjs-node');
 const fs = require('fs').promises;
 const FilterResults = require('../../helpers/filterResults.helper');
 const ObjectDetection = require('../objectDetection.model');
+const MachineLearningException = require('../../Exceptions/marchineLearning.exception');
+
 
 // Represents the object recognition system
 class MobileNet extends ObjectDetection {
@@ -28,7 +30,7 @@ class MobileNet extends ObjectDetection {
 
   // Allows to load the model and decode the image in order to make a detection of the desired object.
   async predict() {
-    
+   
     const topkNumber = 1;
     const imagesArray = await fs.readdir(this.pathFile);
     const mobilenetModel = await mobilenet.load();
