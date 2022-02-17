@@ -10,10 +10,10 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft
 */
 
-const fs = require('fs');
 const File = require('../models/file.model');
 const path = require('path');
 const HashGenerator = require('../helpers/hashGenerator.helper');
+const FileStorer = require('../helpers/fileStorer.helper');
 
 // Represents a validator for uploaded file 
 class FileValidator {
@@ -23,6 +23,7 @@ class FileValidator {
     const { buffer: fileBuffer, mimetype } = req.file;
     const format = mimetype.split('/')[1];
     const fileHash = HashGenerator.generateHashFile(fileBuffer);
+
     try {
       const fileFound = await File.findOne({ hash: fileHash });
       const uploadPath = path.join(__dirname, '../../files/uploads/' + fileHash );
@@ -32,24 +33,66 @@ class FileValidator {
         req.file.path = uploadSave;
         return next();
       }
+      
+      FileStorer.storeFile(
+        uploadPath,
+        uploadSave,
+        fileBuffer,
+        fileHash
+      ).then(() => {
+        req.file.path = uploadSave;
+        next();
+      });
 
-      fs.mkdirSync(uploadPath, { recursive: true });
-      fs.writeFile (uploadSave, fileBuffer, (err) => {
-        if (!err) {
-          const newFile = new File({
-            hash: fileHash,
-            path: uploadSave
-          });
-    
-          newFile.save()
-            .then(() => {
-              req.file.path = uploadSave;
-              return next();
-            })
-            .catch(() => {
-              res.json({ error: 'Something went wrong when saving in dabatase' });
-            })
+    } catch (error) {
+      res.json({ error: 'Something went wrong when uploading file'});
+    }
+  }
+
+  // Validates two uploaded files if they are exists in database
+  static async validateUploadTwoFiles(req, res, next) {
+    const { buffer: backgroundBuffer, mimetype: backgroundMimetype} = req.files.backgroundImage[0];
+    const { buffer: imageBuffer, mimetype: imageMimetype } = req.files.images[0];
+    const backgroundHash = HashGenerator.generateHashFile(backgroundBuffer);
+    const imageHash = HashGenerator.generateHashFile(imageBuffer);
+    const folderPath = path.join(__dirname, '../../files/uploads/');
+    const imageFormat = imageMimetype.split('/')[1];
+    const backgroundFormat = backgroundMimetype.split('/')[1];
+
+    try {
+      Promise.all([
+        File.find({ hash: backgroundHash }), 
+        File.find({ hash: imageHash })
+      ]).then(image => {
+        if (image[0].length === 0) {
+          const backgroundFolder = path.join(folderPath, backgroundHash)
+          const backgroundPath = path.join(backgroundFolder,`${backgroundHash}.${backgroundFormat}`);
+          FileStorer.storeFile(
+            backgroundFolder,
+            backgroundPath,
+            backgroundBuffer,
+            backgroundHash
+          );
+          req.files.backgroundImage[0].path = backgroundPath;
+        } else {
+          req.files.backgroundImage[0].path = image[0][0].path;
         }
+  
+        if (image[1].length === 0) {
+          const imageFolder = path.join(folderPath, imageHash)
+          const imagePath = path.join(imageFolder,`${imageHash}.${imageFormat}`);
+          FileStorer.storeFile(
+            imageFolder,
+            imagePath,
+            imageBuffer,
+            imageHash
+          );
+          req.files.images[0].path = imagePath;
+        } else {
+          req.files.images[0].path = image[1][0].path;
+        }
+        
+        next();
       });
     } catch (error) {
       res.json({ error: 'Something went wrong when uploading file'});
