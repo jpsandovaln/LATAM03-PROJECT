@@ -1,6 +1,5 @@
 node_modules
 files/downloadFiles/*
 files/uploads/*
-*png
-*jpg
 data
+/coverage
