@@ -41,7 +41,7 @@ class VideoConverter extends Converter {
       });
     } catch {
       throw new ConverterException(
-        'There was an error converting the image',
+        'There was an error converting the video',
         'LATAM03'
       );
     }
