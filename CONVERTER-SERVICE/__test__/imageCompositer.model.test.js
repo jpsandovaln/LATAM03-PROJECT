@@ -107,5 +107,4 @@ describe('Test Image Compositer', () => {
     );
     expect(() => imageCompositer.composite().toThrow(ConverterExecption));
   });
-
 });

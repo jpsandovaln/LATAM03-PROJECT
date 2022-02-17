@@ -12,8 +12,6 @@ with Jalasoft.
 const HashGenerator = require('../src/helpers/hashGenerator.helper');
 const fs = require('fs');
 
-
-
 describe('Test Compress', () => {
 
   test('Happy path', () => {
@@ -21,5 +19,4 @@ describe('Test Compress', () => {
     const result = HashGenerator.generateHashFile(fileBuffer);
     expect(result).toEqual('7e2a0cb0f11ad7baa174f85a79808fe3');
   });
-
-})
+});

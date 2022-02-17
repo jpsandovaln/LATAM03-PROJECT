@@ -187,6 +187,4 @@ describe('Test Image Converter', () => {
     const { response } = result;
     expect(response).toBe(true);
   });
-  
-
 })
