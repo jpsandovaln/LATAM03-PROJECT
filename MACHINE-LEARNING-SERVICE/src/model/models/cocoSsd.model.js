@@ -28,7 +28,6 @@ class CocoSsd extends ObjectDetection {
 
   // Allows to load the model and decode the image in order to make a detection of the desired object.
   async predict() {
-    
     const model = await cocoSsd.load();
     const imagesArray = await fs.readdir(this.pathFile);
     const channels = 3;

@@ -31,7 +31,6 @@ class Yolo extends ObjectDetection {
 
   // Allows to load the model and decode the image in order to make a detection of the desired object.
   async predict() {
-  
     const channels = 3;
     const imagesArray = await fs.readdir(this.pathFile);
     const yolo = yolov5;
