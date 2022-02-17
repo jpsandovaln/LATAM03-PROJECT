@@ -1,4 +1,3 @@
-const ConverterException = require('../src/Exceptions/converter.exception');
 const ImageConverter = require('../src/models/imageConverter.model');
 const fs = require('fs');
 
@@ -15,8 +14,8 @@ describe('Image Converter tests', () => {
 
   test('Image success', async () => {
     const imageConverter = new ImageConverter(
-      __dirname + '/files/dog.jpg',
-      `${saveImagesPath}/`,
+      __dirname + '/files/imageTest.jpg',
+      `${__dirname}/files/`,
       size,
       'jpg',
       0,
@@ -24,32 +23,14 @@ describe('Image Converter tests', () => {
       true,
       true
     );
+    
     const result = await imageConverter.convert();
     const { response } = result;
+    
     expect(response).toBe(true);
   });
 
-  // test('Invalid video input', async () => {
-  //   const imageConverter = new ImageConverter(
-  //     __dirname + '/files/DocTest.docx',
-  //     `${saveImagesPath}/`,
-  //     size,
-  //     'jpg',
-  //     0,
-  //     true,
-  //     true,
-  //     true
-  //   );
-
-  //   const result = await imageConverter.convert();
-  //   const { response } = result;
-  //   expect(response).toBe(false);
-  //   // expect(imageConverter.convert()).rejects.toThrow(
-  //   //   'Input file contains unsupported image format'
-  //   // );
-  // });
-
   afterAll(() => {
-    fs.rm(saveImagesPath, { recursive: true, force: true });
+    fs.rmSync(saveImagesPath, { recursive: true, force: true });
   });
 });

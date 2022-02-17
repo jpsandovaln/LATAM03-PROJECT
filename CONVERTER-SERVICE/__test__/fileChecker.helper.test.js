@@ -30,15 +30,6 @@ describe('File checker tests', () => {
     );
   });
 
-  //   test('Check an empty parameter', async () => {
-  //     const reqFileMock = {
-  //       mimetype: 'video/mp4',
-  //     };
-  //     expect(() => FileChecker.uploadChecker(reqFileMock)).toThrow(
-  //       InvalidFileException
-  //     );
-  //   });
-
   afterEach(() => {
     process.env = env;
   });
