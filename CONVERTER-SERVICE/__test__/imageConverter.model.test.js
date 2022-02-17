@@ -24,9 +24,9 @@ describe('Test Image Converter', () => {
       false,
       false
     );
-
     const result = await imageConverter.convert();
     const { response } = result;
+    
     expect(response).toBe(true);
   });
 
