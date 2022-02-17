@@ -37,7 +37,7 @@ describe('Negative Test Coco model', () => {
     } catch (error) {
       expect(error.message).toEqual('Error building model COCO.');
     }
-  }, 500000);
+  }, 50000);
 
   test('Exception cause by "undefined" parameter ', async () => {
     const imagesToPredictArray = {
@@ -52,5 +52,5 @@ describe('Negative Test Coco model', () => {
     } catch (error) {
       expect(error.message).toEqual('Machine learning parameters');
     }
-  }, 500000);
+  }, 50000);
 });
