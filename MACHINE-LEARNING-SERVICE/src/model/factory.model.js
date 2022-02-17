@@ -12,7 +12,7 @@ with Jalasoft.
 const CocoSsd = require('./models/cocoSsd.model');
 const Yolo = require('./models/yolo.model');
 const path = require('path');
-const MachineLearningException = require('../Exceptions/marchineLearning.exception');
+const MachineLearningException = require('../Exceptions/machineLearning.exception');
 const MobileNet = require('./models/mobilenet.model');
 
 // Allows to handle the model chosen by the user
