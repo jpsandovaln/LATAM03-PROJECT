@@ -24,9 +24,15 @@ describe('Test Image Converter', () => {
       false,
       false
     );
+<<<<<<< HEAD
 
     const result = await imageConverter.convert();
     const { response } = result;
+=======
+    const result = await imageConverter.convert();
+    const { response } = result;
+    
+>>>>>>> 05cf41f289e8185eb1476951bc38dc46103f4c5e
     expect(response).toBe(true);
   });
 

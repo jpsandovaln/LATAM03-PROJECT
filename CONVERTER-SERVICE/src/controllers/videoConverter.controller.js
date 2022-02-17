@@ -30,6 +30,7 @@ class VideoConverterController extends Converter {
 
     const params = { ...req.body, saveVideoPath, saveImagesPath };
 
+    console.log(req.file);
     try {
       FileChecker.uploadChecker(req.file, 'VIDEO');
     } catch (error) {

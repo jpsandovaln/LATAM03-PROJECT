@@ -31,10 +31,11 @@ class CompositerController {
     const compositeName = `${image.originalname.split('.')[0]}-${
       backgroundImage.originalname.split('.')[0]
     }`;
+    
     const downloadPath = path.join(__dirname, `../../files/downloadFiles/`);
     const newFolder = `${downloadPath}composite-${compositeName}`;
     const savePath = `${newFolder}/composite-${compositeName}`;
-
+    
     try {
       FileChecker.uploadChecker(backgroundImage, 'IMAGE');
       FileChecker.uploadChecker(image, 'IMAGE');
@@ -48,8 +49,7 @@ class CompositerController {
         format
       );
 
-      await imageCompositer.composite();
-
+      const result = await imageCompositer.composite();
       res.json({
         donwloadLink: `${URLBASE}${PORT}${URL}download/composite-${compositeName}.${format}`,
       });
