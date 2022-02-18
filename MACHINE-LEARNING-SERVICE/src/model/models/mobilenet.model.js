@@ -16,7 +16,7 @@ const tfnode = require('@tensorflow/tfjs-node');
 const fs = require('fs').promises;
 const FilterResults = require('../../helpers/filterResults.helper');
 const ObjectDetection = require('../objectDetection.model');
-const MachineLearningException = require('../../Exceptions/marchineLearning.exception');
+const MachineLearningException = require('../../Exceptions/machineLearning.exception');
 
 
 // Represents the object recognition system
