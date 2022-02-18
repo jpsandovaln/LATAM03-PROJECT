@@ -10,15 +10,15 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft.
 */
 
-const Yolo = require('./yolo.model');
+const Yolo = require('../src/model/models/yolo.model');
 const dotenv = require('dotenv');
-const MachineLearningException = require('../../Exceptions/marchineLearning.exception');
+const MachineLearningException = require('../src/Exceptions/machineLearning.exception');
 dotenv.config();
 const path = require('path');
 
 describe('Yolo Test', () => {
   test('Folder with invalid files', async () => {
-    const pathFile = path.join(__dirname, '/files/');
+    const pathFile = path.join(__dirname, './files/');
     const percentage = 0.5;
     const objectRequired = 'cat';
     const yolo = new Yolo(pathFile, percentage, objectRequired);
@@ -30,7 +30,7 @@ describe('Yolo Test', () => {
   }, 500000);
 
   test('Invalid percentage', async () => {
-    const pathFile = path.join(__dirname, '/files/decompress/');
+    const pathFile = path.join(__dirname, './files/decompress/');
     const percentage = 'hola';
     const objectRequired = 'cat';
     const yolo = new Yolo(pathFile, percentage, objectRequired);

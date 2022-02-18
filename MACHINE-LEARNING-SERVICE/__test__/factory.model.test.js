@@ -10,11 +10,11 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft.
 */
 
-const FactoryModel = require('./factory.model');
-const CocoSsd = require('./models/cocoSsd.model');
-const Yolo = require('./models/yolo.model');
-const MachineLearningException = require('../Exceptions/marchineLearning.exception');
-const MobileNet = require('./models/mobilenet.model');
+const FactoryModel = require('../src/model/factory.model');
+const CocoSsd = require('../src/model/models/cocoSsd.model');
+const Yolo = require('../src/model/models/yolo.model');
+const MachineLearningException = require('../src/Exceptions/machineLearning.exception');
+const MobileNet = require('../src/model/models/mobilenet.model');
 
 describe('Test Factory Model. Happy Path', () => {
   test('Create Yolo instance', () => {

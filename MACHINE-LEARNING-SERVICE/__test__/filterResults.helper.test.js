@@ -10,9 +10,9 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft.
 */
 
-const FilterResults = require('./filterResults.helper');
+const FilterResults = require('../src/helpers/filterResults.helper');
 const path = require('path');
-const MachineLearningException = require('../Exceptions/marchineLearning.exception');
+const MachineLearningException = require('../src/Exceptions/machineLearning.exception');
 
 describe('FilterResults test', () => {
   test('percentage is not a number', () => {
@@ -21,7 +21,7 @@ describe('FilterResults test', () => {
     const percentage = 'hola';
     const imagesToPredictArray = path.join(
       __dirname,
-      'files/decompress/'
+      './files/decompress/'
     );
     expect(() => {
       filterResults.filterFunction(
@@ -38,7 +38,7 @@ describe('FilterResults test', () => {
     const percentage = 0.5;
     const imagesToPredictArray = path.join(
       __dirname,
-      '../../__test__/files/decompress/'
+      './files/decompress/'
     );
     expect(() => {
       filterResults.filterFunction(
