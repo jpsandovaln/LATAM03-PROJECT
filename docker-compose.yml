@@ -1,6 +1,18 @@
 version: '3'
 
 services:
+  machine-learning:
+    container_name: machine-learning-service
+    build:
+      context: ./MACHINE-LEARNING-SERVICE
+      dockerfile: machine-learning.Dockerfile
+    restart: always
+    ports:
+      - 4000:3000
+    environment:
+      PORT: 3000
+      SERVER_URL: http://localhost:3000/api/v1
+  
   mongo:
     image: mongo
     container_name: mongo
