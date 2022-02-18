@@ -30,29 +30,29 @@ class MobileNet extends ObjectDetection {
 
   // Allows to load the model and decode the image in order to make a detection of the desired object.
   async predict() {
-      const topkNumber = 1;
-      const imagesArray = await fs.readdir(this.pathFile);
-      const mobilenetModel = await mobilenet.load();
-      const imagesToPredictArray = await Promise.all(
-        imagesArray.map(async (fileName) => {
-          const imageBuffer = await fs.readFile(`${this.pathFile}${fileName}`);
-          const tfimage = tfnode.node.decodeImage(imageBuffer);
-          const predict = await mobilenetModel.classify(tfimage, topkNumber);
-          const data = { predict, fileName };
-          return data;
-        })
-      ).catch((error) => {
-        throw new MachineLearningException(
-          'Error building model MOBILENET.',
-          'ML-01'
-        );
-      });
-      const foundObjectsArray = FilterResults.filterFunction(
-        imagesToPredictArray,
-        this.objectRequired,
-        this.percentage
+    const topkNumber = 1;
+    const imagesArray = await fs.readdir(this.pathFile);
+    const mobilenetModel = await mobilenet.load();
+    const imagesToPredictArray = await Promise.all(
+      imagesArray.map(async (fileName) => {
+        const imageBuffer = await fs.readFile(`${this.pathFile}${fileName}`);
+        const tfimage = tfnode.node.decodeImage(imageBuffer);
+        const predict = await mobilenetModel.classify(tfimage, topkNumber);
+        const data = { predict, fileName };
+        return data;
+      })
+    ).catch((error) => {
+      throw new MachineLearningException(
+        'Error building model MOBILENET.',
+        'ML-01'
       );
-      return foundObjectsArray;
+    });
+    const foundObjectsArray = FilterResults.filterFunction(
+      imagesToPredictArray,
+      this.objectRequired,
+      this.percentage
+    );
+    return foundObjectsArray;
   }
 }
 

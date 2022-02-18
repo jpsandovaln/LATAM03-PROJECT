@@ -20,20 +20,20 @@ describe('Test Decompress', () => {
   test('Unnexisting filePath', () => {
     const decompress = Decompress;
     expect(() => {
-      decompress.decompressFile('../test/files/aves.jpg');
+      decompress.decompressFile('../__test__/files/aves.jpg');
     }).toThrow(InvalidFileException);
   });
 
   test('Existing filePath but invalid extention', () => {
     const decompress = Decompress;
-    const pathFile = path.join(__dirname, '../../test/files/13.jpg');
+    const pathFile = path.join(__dirname, '../../__test__/files/13.jpg');
     expect(() => {
       decompress.decompressFile(pathFile);
     }).toThrow(InvalidFileException);
   });
 
   test('Decompress successfully', () => {
-    const pathFile = path.join(__dirname, '../../test/files/animales.zip');
+    const pathFile = path.join(__dirname, '../../__test__/files/animales.zip');
     const result = Decompress.decompressFile(pathFile).decompressed;
     expect(result).toEqual(true);
   });

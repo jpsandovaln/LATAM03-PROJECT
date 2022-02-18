@@ -18,7 +18,7 @@ const path = require('path');
 
 describe('Mobilenet Test', () => {
   test('Happy Path', async () => {
-    const pathFile = path.join(__dirname, '../../../test/files/decompress/');
+    const pathFile = path.join(__dirname, 'files/decompress/');
     const percentage = 0.5;
     const objectRequired = 'cat';
     const mobilenet = new MobileNet(pathFile, percentage, objectRequired);
@@ -27,7 +27,7 @@ describe('Mobilenet Test', () => {
   }, 500000);
 
   test('Invalid File', async () => {
-    const pathFile = path.join(__dirname, '../../../test/files/');
+    const pathFile = path.join(__dirname, '/files/');
     const percentage = 0.5;
     const objectRequired = 'cat';
     const mobilenet = new MobileNet(pathFile, percentage, objectRequired);
@@ -39,7 +39,7 @@ describe('Mobilenet Test', () => {
   }, 500000);
 
   test('Invalid percentage', async () => {
-    const pathFile = path.join(__dirname, '../../../test/files/decompress/');
+    const pathFile = path.join(__dirname, 'files/decompress/');
     const percentage = 'hola';
     const objectRequired = 'cat';
     const mobilenet = new MobileNet(pathFile, percentage, objectRequired);

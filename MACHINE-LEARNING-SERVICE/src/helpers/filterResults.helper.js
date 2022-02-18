@@ -10,7 +10,7 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft
 */
 
-const MachineLearningException = require("../Exceptions/marchineLearning.exception");
+const MachineLearningException = require("../Exceptions/machineLearning.exception");
 
 // Filters found objects according to the received parameters
 class FilterResults {
