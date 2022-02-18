@@ -10,9 +10,9 @@ accordance with the terms of the license agreement you entered into
 with Jalasoft.
 */
 
-const Decompress = require('./decompress.helper');
+const Decompress = require('../src/helpers/decompress.helper');
 const dotenv = require('dotenv');
-const InvalidFileException = require('../Exceptions/invalidFile.exception');
+const InvalidFileException = require('../src/Exceptions/invalidFile.exception');
 dotenv.config();
 const path = require('path');
 
@@ -20,20 +20,20 @@ describe('Test Decompress', () => {
   test('Unnexisting filePath', () => {
     const decompress = Decompress;
     expect(() => {
-      decompress.decompressFile('../__test__/files/aves.jpg');
+      decompress.decompressFile('./files/aves.jpg');
     }).toThrow(InvalidFileException);
   });
 
   test('Existing filePath but invalid extention', () => {
     const decompress = Decompress;
-    const pathFile = path.join(__dirname, '../../__test__/files/13.jpg');
+    const pathFile = path.join(__dirname, './files/13.jpg');
     expect(() => {
       decompress.decompressFile(pathFile);
     }).toThrow(InvalidFileException);
   });
 
   test('Decompress successfully', () => {
-    const pathFile = path.join(__dirname, '../../__test__/files/animales.zip');
+    const pathFile = path.join(__dirname, './files/animales.zip');
     const result = Decompress.decompressFile(pathFile).decompressed;
     expect(result).toEqual(true);
   });
