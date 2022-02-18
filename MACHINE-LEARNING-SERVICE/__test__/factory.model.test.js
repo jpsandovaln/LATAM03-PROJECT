@@ -18,7 +18,7 @@ const MobileNet = require('./models/mobilenet.model');
 
 describe('Test Factory Model. Happy Path', () => {
   test('Create Yolo instance', () => {
-    const folderFile = '../test/files/images/13.jpg';
+    const folderFile = '../__test__/files/13.jpg';
     const object = 'dog';
     const percentage = 0.5;
     const result = FactoryModel.chooseModel(
@@ -31,7 +31,7 @@ describe('Test Factory Model. Happy Path', () => {
   });
 
   test('Create Coco instance', () => {
-    const folderFile = '../test/files/images/13.jpg';
+    const folderFile = '../__test__/files/13.jpg';
     const object = 'dog';
     const percentage = 0.5;
     const result = FactoryModel.chooseModel(
@@ -44,7 +44,7 @@ describe('Test Factory Model. Happy Path', () => {
   });
 
   test('Create MobileNet instance', () => {
-    const folderFile = '../test/files/images/13.jpg';
+    const folderFile = '../__test__/files/13.jpg';
     const object = 'dog';
     const percentage = 0.5;
     const result = FactoryModel.chooseModel(
@@ -59,7 +59,7 @@ describe('Test Factory Model. Happy Path', () => {
 
 describe('Test Factory Model', () => {
   test('Create invalid instance', () => {
-    const folderFile = '../test/files/images/13.jpg';
+    const folderFile = '../__test__/files/13.jpg';
     const object = 'dog';
     const percentage = 0.5;
     expect(() => {
@@ -68,7 +68,7 @@ describe('Test Factory Model', () => {
   });
 
   test('Empty input', () => {
-    const folderFile = '../test/files/images/13.jpg';
+    const folderFile = '../__test__/files/13.jpg';
     const object = 'dog';
     const percentage = 0.5;
     expect(() => {

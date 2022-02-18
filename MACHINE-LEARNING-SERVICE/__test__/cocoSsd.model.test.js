@@ -16,7 +16,7 @@ const FilterResults = require('./../../helpers/filterResults.helper');
 describe('Negative Test Coco model', () => {
 
   test('Error cause by wrong value in percentage parameter', async () => {
-    const pathFile = path.join((__dirname), '../../../test/files/decompress/');
+    const pathFile = path.join((__dirname), '../../../__test__/files/decompress/');
     const percentage = 'hola';
     const objectRequired = 'dog';
     const cocoSsd = new CocoSsd(pathFile, percentage, objectRequired);
@@ -28,7 +28,7 @@ describe('Negative Test Coco model', () => {
   }, 500000);
 
   test('Exception cause by null value', async () => {
-    const pathFile = path.join((__dirname), '../../../test/files/');
+    const pathFile = path.join((__dirname), '../../../__test__/files/');
     const percentage = null;
     const objectRequired = null;
     const cocoSsd = new CocoSsd(pathFile, percentage, objectRequired);

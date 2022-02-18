@@ -21,7 +21,7 @@ describe('FilterResults test', () => {
     const percentage = 'hola';
     const imagesToPredictArray = path.join(
       __dirname,
-      '../../test/files/decompress/'
+      'files/decompress/'
     );
     expect(() => {
       filterResults.filterFunction(
@@ -38,7 +38,7 @@ describe('FilterResults test', () => {
     const percentage = 0.5;
     const imagesToPredictArray = path.join(
       __dirname,
-      '../../test/files/decompress/'
+      '../../__test__/files/decompress/'
     );
     expect(() => {
       filterResults.filterFunction(
