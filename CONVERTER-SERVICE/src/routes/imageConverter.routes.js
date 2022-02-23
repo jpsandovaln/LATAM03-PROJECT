@@ -15,9 +15,7 @@ const ImageConverterController = require('./../controllers/imageConverter.contro
 const FileValidator = require('../middlewares/fileValidator.middleware');
 const UploadProcessor = require('../middlewares/uploadProcessor.middleware');
 
-router.post('/', [
-  UploadProcessor.processUploadFile(),
-  FileValidator.validateUploadOneFile
-], ImageConverterController.convert);
+const upload = require('../middlewares/multer.middleware')
+router.post('/', upload(), ImageConverterController.convert);
 
 module.exports = router;
