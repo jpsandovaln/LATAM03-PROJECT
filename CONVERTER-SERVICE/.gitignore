@@ -1,0 +1,5 @@
+node_modules
+files/downloadFiles/*
+files/uploads/*
+data
+/coverage
