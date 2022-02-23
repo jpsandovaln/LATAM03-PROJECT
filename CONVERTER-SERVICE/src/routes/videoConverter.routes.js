@@ -19,9 +19,4 @@ const UploadProcessor = require('../middlewares/uploadProcessor.middleware');
 const upload = require('../middlewares/multer.middleware')
 router.post('/', upload(), VideoConverterController.convert);
 
-// router.post('/', [
-//   UploadProcessor.processUploadFile(),
-//   FileValidator.validateUploadOneFile
-// ], VideoConverterController.convert);
-
 module.exports = router;
